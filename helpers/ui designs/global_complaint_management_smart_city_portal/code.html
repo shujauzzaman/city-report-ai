@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Complaint Management | Smart City Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-container": "#edeeef",
+                "on-primary": "#ffffff",
+                "inverse-primary": "#81db6e",
+                "on-secondary": "#ffffff",
+                "secondary-fixed": "#b0f1ce",
+                "secondary": "#2b694e",
+                "on-secondary-fixed": "#002114",
+                "error": "#ba1a1a",
+                "tertiary-fixed": "#ffd9e5",
+                "surface-container-low": "#f3f4f5",
+                "surface-container-highest": "#e1e3e4",
+                "tertiary": "#7b0d4c",
+                "on-tertiary-fixed": "#3d0023",
+                "surface-bright": "#f8f9fa",
+                "on-surface-variant": "#404a3b",
+                "on-primary-fixed-variant": "#005300",
+                "on-secondary-container": "#327054",
+                "surface": "#f8f9fa",
+                "on-primary-fixed": "#002200",
+                "secondary-container": "#b0f1ce",
+                "surface-tint": "#106e09",
+                "tertiary-container": "#9a2a64",
+                "primary-fixed-dim": "#81db6e",
+                "tertiary-fixed-dim": "#ffb0cf",
+                "inverse-surface": "#2e3132",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-container": "#ffb9d4",
+                "on-primary-container": "#88e274",
+                "surface-dim": "#d9dadb",
+                "background": "#f8f9fa",
+                "primary": "#004b00",
+                "on-surface": "#191c1d",
+                "primary-container": "#006600",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "on-background": "#191c1d",
+                "surface-variant": "#e1e3e4",
+                "on-secondary-fixed-variant": "#0b5138",
+                "on-error": "#ffffff",
+                "outline": "#707a6a",
+                "primary-fixed": "#9cf987",
+                "inverse-on-surface": "#f0f1f2",
+                "secondary-fixed-dim": "#94d4b3",
+                "on-tertiary-fixed-variant": "#851753",
+                "error-container": "#ffdad6",
+                "surface-container-high": "#e7e8e9",
+                "outline-variant": "#bfcab7"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "lg": "24px",
+                "2xl": "48px",
+                "xs": "4px",
+                "md": "16px",
+                "sm": "8px",
+                "base-unit": "4px",
+                "gutter": "24px",
+                "container-max": "1280px",
+                "xl": "32px",
+                "3xl": "64px"
+            },
+            "fontFamily": {
+                "body-lg": ["Public Sans"],
+                "label-md": ["Public Sans"],
+                "h1": ["Public Sans"],
+                "body-md": ["Public Sans"],
+                "caption": ["Public Sans"],
+                "h3": ["Public Sans"],
+                "h2": ["Public Sans"]
+            },
+            "fontSize": {
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#064E35] dark:bg-emerald-950 shadow-xl border-r border-emerald-800 flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="government_efficiency">productivity</span>
+</div>
+<div>
+<h1 class="text-white font-bold text-lg leading-none">Smart City</h1>
+<p class="text-emerald-100/70 text-xs mt-1">Citizen Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all flex items-center space-x-3 font-public-sans text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home</span>
+</a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all flex items-center space-x-3 font-public-sans text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>Submit Complaint</span>
+</a>
+<a class="bg-white/10 border-l-4 border-white text-white font-semibold py-3 px-4 flex items-center space-x-3 font-public-sans text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span>My Complaints</span>
+</a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all flex items-center space-x-3 font-public-sans text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all flex items-center space-x-3 font-public-sans text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<div class="bg-white/5 rounded-lg p-4 flex items-center space-x-3">
+<img alt="Officer Avatar" class="w-10 h-10 rounded-full bg-emerald-800" data-alt="A professional headshot of a government administrative officer in a clean, high-key setting. The officer wears a sharp charcoal suit over a white shirt, projecting authority and institutional reliability. The lighting is soft and diffused, characteristic of a modern office environment. The background is a soft, out-of-focus green wall that matches the portal's primary brand color." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHliAlf7w8LgblIradH3C53CS3lhfzo_Jyg0RIO-hO6QOtwlnSf5IRpUDTnp4azY4HfW-bmTn7d-_ycYs6LEOGtIqZZqDQWwwKcyr_Fha5LMfqZBHgOBlsJPOkQEl7IoZcxCEL_bvO_hT4RKb751GFEwhD6OKStMn4E0ai8USNyFVEL7B2XqltaNkgVNsdtidqcAvFk-ELnTjfdKHi19t4B4Mg8QPaNCBi5_rdfUNpF5HFkChSdclBl-qPxUwjmoEFljJFLYSaC25a"/>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-semibold truncate">Ahmed Khan</p>
+<p class="text-emerald-100/60 text-xs truncate">Admin Officer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar (Shared Component Logic) -->
+<header class="flex justify-between items-center px-6 h-16 w-full bg-white dark:bg-gray-900 border-b border-gray-200 sticky top-0 z-40">
+<div class="flex items-center space-x-4">
+<h2 class="font-h3 text-h3 text-emerald-900">Complaint Management</h2>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-gray-500 cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 bg-error text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">4</span>
+</div>
+<div class="flex items-center space-x-3 border-l pl-6 border-gray-200">
+<div class="text-right hidden lg:block">
+<p class="text-sm font-bold text-emerald-900 leading-none">Smart City Portal</p>
+<p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Institutional Access</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Table Container -->
+<section class="p-lg max-w-[1280px] mx-auto">
+<!-- Filters & Actions Bar -->
+<div class="bg-white border border-outline-variant rounded-xl p-md mb-lg shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
+<!-- Left: Search and Filters -->
+<div class="flex flex-col md:flex-row items-stretch md:items-center gap-sm flex-1">
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm bg-surface-container-lowest" placeholder="Search Complaint ID or Citizen..." type="text"/>
+</div>
+<div class="flex gap-sm">
+<select class="border border-outline-variant rounded-lg py-2 px-3 text-sm bg-surface-container-lowest focus:ring-primary">
+<option>All Departments</option>
+<option>Waste Management</option>
+<option>Sanitation</option>
+<option>Public Lighting</option>
+<option>Traffic Police</option>
+</select>
+<select class="border border-outline-variant rounded-lg py-2 px-3 text-sm bg-surface-container-lowest focus:ring-primary">
+<option>All Statuses</option>
+<option>Pending</option>
+<option>In Progress</option>
+<option>Resolved</option>
+<option>Closed</option>
+</select>
+</div>
+</div>
+<!-- Right: Bulk Actions -->
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg text-sm font-semibold text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="file_download">file_download</span>
+                            Export
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-lg" data-icon="update">update</span>
+                            Bulk Update Status
+                        </button>
+</div>
+</div>
+</div>
+<!-- Main Table Grid -->
+<div class="bg-white border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-md py-4 w-12">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Complaint ID</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Citizen Name</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Issue Type</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Department</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-md py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-md py-4">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</td>
+<td class="px-md py-4 font-semibold text-emerald-900">#CMP-7821</td>
+<td class="px-md py-4 text-body-md text-on-surface">Zahid Hussain</td>
+<td class="px-md py-4">
+<span class="text-body-md">Sewerage Leakage</span>
+<p class="text-xs text-gray-500 italic mt-0.5">High Severity</p>
+</td>
+<td class="px-md py-4 text-body-md text-on-surface">WASA</td>
+<td class="px-md py-4 text-body-md text-on-surface">12 Oct, 2023</td>
+<td class="px-md py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700">Pending</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-lowest transition-colors group">
+<td class="px-md py-4">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</td>
+<td class="px-md py-4 font-semibold text-emerald-900">#CMP-7822</td>
+<td class="px-md py-4 text-body-md text-on-surface">Fatima Ali</td>
+<td class="px-md py-4">
+<span class="text-body-md">Broken Streetlight</span>
+</td>
+<td class="px-md py-4 text-body-md text-on-surface">Energy Dept</td>
+<td class="px-md py-4 text-body-md text-on-surface">11 Oct, 2023</td>
+<td class="px-md py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-blue-100 text-blue-700">In Progress</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-md py-4">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</td>
+<td class="px-md py-4 font-semibold text-emerald-900">#CMP-7823</td>
+<td class="px-md py-4 text-body-md text-on-surface">Imran Siddiqui</td>
+<td class="px-md py-4">
+<span class="text-body-md">Garbage Accumulation</span>
+</td>
+<td class="px-md py-4 text-body-md text-on-surface">Solid Waste</td>
+<td class="px-md py-4 text-body-md text-on-surface">10 Oct, 2023</td>
+<td class="px-md py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-emerald-100 text-emerald-700">Resolved</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-lowest transition-colors group">
+<td class="px-md py-4">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</td>
+<td class="px-md py-4 font-semibold text-emerald-900">#CMP-7824</td>
+<td class="px-md py-4 text-body-md text-on-surface">Sarah Ahmed</td>
+<td class="px-md py-4">
+<span class="text-body-md">Illegal Parking</span>
+</td>
+<td class="px-md py-4 text-body-md text-on-surface">Traffic Police</td>
+<td class="px-md py-4 text-body-md text-on-surface">10 Oct, 2023</td>
+<td class="px-md py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-gray-100 text-gray-700">Closed</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-md py-4">
+<input class="rounded text-primary focus:ring-primary-container" type="checkbox"/>
+</td>
+<td class="px-md py-4 font-semibold text-emerald-900">#CMP-7825</td>
+<td class="px-md py-4 text-body-md text-on-surface">Arshad Mehmood</td>
+<td class="px-md py-4">
+<span class="text-body-md">Water Shortage</span>
+<p class="text-xs text-gray-500 italic mt-0.5">Recurring Issue</p>
+</td>
+<td class="px-md py-4 text-body-md text-on-surface">WASA</td>
+<td class="px-md py-4 text-body-md text-on-surface">09 Oct, 2023</td>
+<td class="px-md py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700">Pending</span>
+</td>
+<td class="px-md py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-md py-4 border-t border-outline-variant bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-md">
+<p class="text-caption text-on-surface-variant">Showing 1 to 5 of 152 total complaints</p>
+<div class="flex items-center space-x-2">
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-white font-semibold rounded shadow-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-white transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-white transition-colors">3</button>
+<span class="px-1 text-on-surface-variant">...</span>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-white transition-colors">31</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Stats Overlay / Dashboard Component -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-4 gap-md">
+<div class="bg-white p-md border border-outline-variant rounded-xl flex items-center space-x-4 shadow-sm">
+<div class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="error_outline">error_outline</span>
+</div>
+<div>
+<p class="text-caption text-gray-500 font-semibold uppercase">Pending</p>
+<p class="text-h3 font-h3 text-on-surface">42</p>
+</div>
+</div>
+<div class="bg-white p-md border border-outline-variant rounded-xl flex items-center space-x-4 shadow-sm">
+<div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="sync">sync</span>
+</div>
+<div>
+<p class="text-caption text-gray-500 font-semibold uppercase">Processing</p>
+<p class="text-h3 font-h3 text-on-surface">28</p>
+</div>
+</div>
+<div class="bg-white p-md border border-outline-variant rounded-xl flex items-center space-x-4 shadow-sm">
+<div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="text-caption text-gray-500 font-semibold uppercase">Resolved</p>
+<p class="text-h3 font-h3 text-on-surface">82</p>
+</div>
+</div>
+<div class="bg-white p-md border border-outline-variant rounded-xl flex items-center space-x-4 shadow-sm">
+<div class="w-12 h-12 bg-surface-container-high text-on-surface-variant rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="analytics">analytics</span>
+</div>
+<div>
+<p class="text-caption text-gray-500 font-semibold uppercase">Total</p>
+<p class="text-h3 font-h3 text-on-surface">152</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Floating Action Button -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary-container text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</main>
+</body></html>
