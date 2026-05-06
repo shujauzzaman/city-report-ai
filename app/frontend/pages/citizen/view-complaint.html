@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCity - Ticket Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .ai-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1rem;
+            height: 100%;
+        }
+        .ai-icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .bg-teal-light { background-color: #e6f4f1; color: #20c997; }
+        .bg-red-light { background-color: #fdf2f2; color: #dc3545; }
+        
+        /* Clean Timeline Styles */
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-content">
+        <div id="navbar-placeholder"></div>
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="my-complaints.html" class="btn btn-link text-dark p-0 me-3 text-decoration-none">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="my-complaints.html" class="text-muted text-decoration-none">My Complaints</a></li>
+                    <li class="breadcrumb-item active fw-bold">Ticket #PK-39420</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=80" class="w-100 object-fit-cover" style="height: 350px;">
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6 col-xl-3">
+                                    <div class="ai-card d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <small class="text-uppercase fw-bold text-muted" style="font-size: 0.65rem;">Issue Type</small>
+                                            <p class="fw-bold mb-0">Sanitation</p>
+                                        </div>
+                                        <div class="ai-icon-box bg-teal-light"><i class="bi bi-tools"></i></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-3">
+                                    <div class="ai-card d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <small class="text-uppercase fw-bold text-muted" style="font-size: 0.65rem;">Category</small>
+                                            <p class="fw-bold mb-0">Waste</p>
+                                        </div>
+                                        <div class="ai-icon-box bg-teal-light"><i class="bi bi-grid-fill"></i></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-3">
+                                    <div class="ai-card d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <small class="text-uppercase fw-bold text-muted" style="font-size: 0.65rem;">Assigned Dept</small>
+                                            <p class="fw-bold mb-0">WMB</p>
+                                        </div>
+                                        <div class="ai-icon-box bg-red-light"><i class="bi bi-building"></i></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-3">
+                                    <div class="ai-card d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <small class="text-uppercase fw-bold text-muted" style="font-size: 0.65rem;">Priority Level</small>
+                                            <p class="fw-bold mb-0">High</p>
+                                        </div>
+                                        <div class="ai-icon-box bg-red-light"><i class="bi bi-exclamation-triangle"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h3 class="fw-bold mb-1">Garbage Accumulation</h3>
+                                <p class="text-muted mb-0 small">
+                                    <i class="bi bi-geo-alt-fill text-success me-1"></i> Plot 42-B, Block 6, P.E.C.H.S, Karachi
+                                </p>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted d-block">Submitted on</small>
+                                <span class="fw-bold">Oct 24, 2023 • 09:15 AM</span>
+                            </div>
+                        </div>
+
+                        <hr class="opacity-25">
+
+                        <h6 class="text-uppercase text-muted fw-bold small mb-2">Detailed Description</h6>
+                        <p class="text-dark mb-4">Substantial waste accumulation has been observed at the corner of Block 6 for the past four days. The municipal collection truck has missed two scheduled cycles. This is causing significant hygiene concerns for the neighborhood residents and attracting pests.</p>
+
+                        <div class="row pt-2">
+                            <div class="col-6 ps-4">
+                                <small class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Assigned Officer</small>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-badge text-success me-2 fs-5"></i>
+                                    <span class="fw-bold">Insp. Tariq Mehmood</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Tracking Status</h5>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="status-indicator bg-success text-white">
+                                <i class="bi bi-check-lg" style="font-size: 12px;"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Submitted</h6>
+                                <small class="text-muted">Oct 24, 09:15 AM</small>
+                                <p class="small text-secondary mb-0">Ticket created by Ahmed Khan</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="status-indicator bg-success text-white">
+                                <i class="bi bi-check-lg" style="font-size: 12px;"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-success">In Progress</h6>
+                                <small class="text-muted">Oct 25, 08:00 AM</small>
+                                <p class="small text-secondary mb-0"><em>Officer is currently on-site</em></p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="status-indicator bg-light border border-2"></div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-muted">Resolved</h6>
+                                <p class="small text-muted mb-0">Pending completion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    async function loadComponent(id, file) {
+        const res = await fetch(file);
+        if (res.ok) document.getElementById(id).innerHTML = await res.text();
+    }
+    window.onload = () => {
+        loadComponent('sidebar-placeholder', '../../components/citizen-sidebar.html');
+        loadComponent('navbar-placeholder', '../../components/navbar.html');
+    };
+</script>
+
+</body>
+</html>

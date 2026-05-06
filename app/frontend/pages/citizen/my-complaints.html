@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCity - My Complaints</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Existing Theme CSS -->
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-content">
+        <!-- Navbar -->
+        <div id="navbar-placeholder"></div>
+
+        <!-- Consistent Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="brand-title h1 mb-0">My Complaints</h2>
+                <p class="text-muted small mb-0 mt-1">
+                    Manage and track your submitted reports
+                </p>
+            </div>
+            
+            <div class="search-container">
+                <div class="input-group shadow-sm" style="min-width: 300px;">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-success"></i>
+                    </span>
+                    <input type="text" id="complaintSearch" class="form-control border-start-0 ps-0" placeholder="Search by ID or keyword...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaint Grid - Using existing gutter logic -->
+        <div class="row g-4" id="complaints-grid">
+            <!-- Dynamically injected via complaint-card.js -->
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../components/complaint-card.js"></script>
+
+<script>
+    // Shared Component Loader
+    async function loadComponent(id, file) {
+        try {
+            const res = await fetch(file);
+            if (res.ok) document.getElementById(id).innerHTML = await res.text();
+        } catch (err) {
+            console.error("Component load error:", err);
+        }
+    }
+
+    const myComplaintsData = [
+        { 
+            id: '1024', 
+            date: 'Oct 12, 2023', 
+            title: 'Large Pothole - Main Road', 
+            description: 'Hazardous pothole located near the primary intersection of Sector F-7, causing traffic...', 
+            status: 'In Progress', 
+            priority: 'High', 
+            image: 'https://images.unsplash.com/photo-1599507591144-6663f7215f72?auto=format&fit=crop&w=600&q=80' 
+        },
+        { 
+            id: '1028', 
+            date: 'Oct 10, 2023', 
+            title: 'Uncollected Garbage', 
+            description: 'Garbage collection has been missed for three consecutive days in Block C, resulting in...', 
+            status: 'Submitted', 
+            priority: 'Low', 
+            image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80' 
+        },
+        { 
+            id: '0988', 
+            date: 'Sep 28, 2023', 
+            title: 'Broken Street Light', 
+            description: 'The main street lamp near the park entrance is flickering and dim, creating a safety concern...', 
+            status: 'Resolved', 
+            priority: 'Low', 
+            image: 'https://images.unsplash.com/photo-1518384401463-d3876063c195?auto=format&fit=crop&w=600&q=80' 
+        },
+        { 
+            id: '1031', 
+            date: 'Oct 14, 2023', 
+            title: 'Water Main Leakage', 
+            description: 'Substantial water leakage observed at the corner of Street 5 and 7. Wasting clean water...', 
+            status: 'Submitted', 
+            priority: 'Low', 
+            image: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=600&q=80' 
+        }
+    ];
+
+    window.onload = () => {
+        loadComponent('sidebar-placeholder', '../../components/citizen-sidebar.html');
+        loadComponent('navbar-placeholder', '../../components/navbar.html');
+        
+        // Initial render
+        renderComplaintCards(myComplaintsData, 'complaints-grid');
+
+        // Theme-consistent search filter
+        const searchInput = document.getElementById('complaintSearch');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = myComplaintsData.filter(item => 
+                item.title.toLowerCase().includes(term) || 
+                item.id.includes(term) ||
+                item.description.toLowerCase().includes(term)
+            );
+            renderComplaintCards(filtered, 'complaints-grid');
+        });
+    };
+</script>
+
+</body>
+</html>

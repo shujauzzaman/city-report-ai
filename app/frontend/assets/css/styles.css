@@ -1,0 +1,224 @@
+/* --- THEME CONSTANTS --- */
+:root {
+    --primary-green: #004d00;
+    --accent-green: #006400;
+    --bg-light: #f8f9fa;
+    --card-bg: #ffffff;
+    --input-bg: #f8f9fa;
+    --text-main: #333333;
+    --text-muted: #6c757d;
+    --border-color: #ced4da; /* Prominent Border */
+    --shadow-sm: 0 4px 15px rgba(0,0,0,0.05);
+    --border-radius: 12px;
+    --focus-glow: rgba(0, 100, 0, 0.15);
+}
+
+/* --- GLOBAL STYLES --- */
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* --- COMPONENTS --- */
+
+.brand-title { color: var(--primary-green); font-weight: 700; }
+.brand-subtitle { color: var(--text-muted); font-size: 0.9rem; }
+
+.app-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: 2.5rem;
+}
+
+/* --- FORM & INPUT REFACTOR --- */
+
+.form-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+/* Unified Input Group Logic */
+.input-group {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.input-group-text {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-right: none; /* Keep the middle line gone for a clean merge */
+    color: var(--text-muted);
+    padding-left: 1rem;
+}
+
+.form-control, .form-select {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    /* Border-left is back, but set to match the icon box's right edge */
+    border-left: 1px solid var(--border-color); 
+    padding: 0.75rem;
+}
+
+/* Fix the Focus State for the whole group */
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.2rem var(--focus-glow);
+    border-radius: 8px;
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+    border-color: var(--accent-green);
+    background-color: #fff;
+}
+
+.form-control:focus {
+    box-shadow: none; /* Shadow is handled by the parent group now */
+    outline: none;
+}
+
+/* Checkboxes */
+.form-check-input {
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem var(--focus-glow);
+    border-color: var(--accent-green);
+}
+
+/* Action Elements */
+.btn-primary-brand {
+    background-color: var(--primary-green);
+    border: none;
+    padding: 0.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-primary-brand:hover {
+    background-color: var(--accent-green);
+    transform: translateY(-1px);
+}
+
+.link-brand {
+    color: var(--accent-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-brand:hover {
+    text-decoration: underline;
+    color: var(--primary-green);
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- FIXED DASHBOARD LAYOUT --- */
+.dashboard-wrapper {
+    display: flex;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: var(--primary-green);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    
+    /* Pin to viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 1050;
+}
+
+.main-content {
+    flex: 1;
+    background-color: var(--bg-light);
+    padding: 2rem;
+    /* Offset by sidebar width */
+    margin-left: 280px; 
+    min-height: 100vh;
+}
+
+/* Sidebar Nav Links */
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.7);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.sidebar .nav-link.active {
+    border-left: 4px solid white;
+}
+
+/* Upload Area Styling */
+.upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    text-align: center;
+    background: var(--input-bg);
+}
+
+/* --- UNIFIED BRAND FOCUS (No Transitions) --- */
+
+/* Target all input types, textareas, and selects */
+.form-control:focus, 
+.form-select:focus,
+.upload-area:hover {
+    border-color: var(--accent-green) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 0.2rem var(--focus-glow) !important;
+    outline: 0 none;
+}
+
+/* Ensure Input Groups (Icon + Field) move as one unit */
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.2rem var(--focus-glow);
+    border-radius: 8px;
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+    border-color: var(--accent-green);
+    background-color: #ffffff;
+}
+
+/* Remove default Bootstrap blue shadow globally */
+*:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
