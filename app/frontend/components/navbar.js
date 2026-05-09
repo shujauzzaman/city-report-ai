@@ -56,12 +56,6 @@ function loadNavbar() {
 
                     ${notificationHTML}
 
-                    <!-- Footer Section -->
-                    <li class="p-2 text-center border-top">
-                        <a href="notifications.html" class="text-success fw-bold small text-decoration-none d-block py-1">
-                            View all notifications
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
