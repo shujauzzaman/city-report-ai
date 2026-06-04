@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Monitoring Portal - Detection Statistics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004b00",
+                        "on-surface": "#191c1d",
+                        "secondary-fixed": "#b0f1ce",
+                        "on-primary-fixed-variant": "#005300",
+                        "on-secondary-container": "#327054",
+                        "secondary-container": "#b0f1ce",
+                        "surface-tint": "#106e09",
+                        "background": "#f8f9fa",
+                        "secondary": "#2b694e",
+                        "on-secondary-fixed": "#002114",
+                        "primary-fixed-dim": "#81db6e",
+                        "on-tertiary-fixed-variant": "#851753",
+                        "on-primary-container": "#88e274",
+                        "inverse-primary": "#81db6e",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-container": "#ffb9d4",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-fixed": "#9cf987",
+                        "on-primary-fixed": "#002200",
+                        "on-tertiary-fixed": "#3d0023",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#94d4b3",
+                        "outline-variant": "#bfcab7",
+                        "tertiary": "#7b0d4c",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d9dadb",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#ffb0cf",
+                        "on-surface-variant": "#404a3b",
+                        "outline": "#707a6a",
+                        "inverse-surface": "#2e3132",
+                        "tertiary-fixed": "#ffd9e5",
+                        "tertiary-container": "#9a2a64",
+                        "primary-container": "#006600",
+                        "on-secondary-fixed-variant": "#0b5138"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "base-unit": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "3xl": "64px",
+                        "container-max": "1280px",
+                        "2xl": "48px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Public Sans"],
+                        "h1": ["Public Sans"],
+                        "caption": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "h3": ["Public Sans"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #f8f9fa; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .chart-bar-container { height: 320px; display: flex; align-items: flex-end; gap: 24px; }
+        .chart-bar { transition: height 0.6s ease; position: relative; border-radius: 4px 4px 0 0; }
+        .chart-tooltip { visibility: hidden; opacity: 0; transition: opacity 0.2s; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); }
+        .chart-bar:hover .chart-tooltip { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-[#064E35] dark:bg-slate-950 shadow-2xl flex flex-col z-50 border-r border-green-900/50">
+<div class="p-lg flex flex-col items-center border-b border-white/10 pb-xl">
+<div class="w-16 h-16 mb-md bg-white/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="government_efficiency">productivity</span>
+</div>
+<h2 class="text-lg font-extrabold uppercase text-white tracking-wide">Admin Dashboard</h2>
+<p class="text-white/60 text-caption">Institutional AI Control</p>
+</div>
+<nav class="flex-grow mt-md overflow-y-auto">
+<!-- Overview -->
+<a class="text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 cursor-pointer active:bg-white/20" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="dashboard">dashboard</span>
+<span class="font-public-sans tracking-wide">Overview</span>
+</a>
+<!-- AI Detections (Active) -->
+<a class="bg-white/10 border-l-4 border-white text-white font-semibold flex items-center px-6 py-4 transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="query_stats">query_stats</span>
+<span class="font-public-sans tracking-wide">AI Detections</span>
+</a>
+<a class="text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span class="font-public-sans tracking-wide">Model Performance</span>
+</a>
+<a class="text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="monitoring">monitoring</span>
+<span class="font-public-sans tracking-wide">System Health</span>
+</a>
+<a class="text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="description">description</span>
+<span class="font-public-sans tracking-wide">Reporting</span>
+</a>
+<a class="text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined mr-md" data-icon="group">group</span>
+<span class="font-public-sans tracking-wide">User Access</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-white/10">
+<button class="w-full text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200">
+<span class="material-symbols-outlined mr-md" data-icon="help_center">help_center</span>
+<span class="font-public-sans tracking-wide">Support</span>
+</button>
+<button class="w-full text-white/70 hover:bg-white/5 hover:text-white flex items-center px-6 py-4 transition-all duration-200 mb-xl">
+<span class="material-symbols-outlined mr-md" data-icon="logout">logout</span>
+<span class="font-public-sans tracking-wide">Sign Out</span>
+</button>
+</div>
+</aside>
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 left-64 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 z-40 px-8 py-3 flex justify-between items-center h-16 shadow-sm">
+<div class="flex items-center gap-xl">
+<h1 class="text-xl font-bold text-green-900 dark:text-white font-h2">AI Monitoring Portal</h1>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="pl-10 pr-4 py-2 w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary-container" placeholder="Search detections..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-xs text-gray-500 font-label-md bg-gray-100 px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span>Jan 1, 2024 - Jan 31, 2024</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-md border border-gray-200">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a government administrator in a crisp navy blue suit, standing against a neutral gray architectural background. The lighting is bright and even, highlighting a confident and trustworthy expression suitable for a high-level digital portal. The overall aesthetic is clean, corporate, and minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCemhHof_bIA47dR9bPWVZOBEO9blnH2FxRq5fYiwEvJM9RmP_-X7lqK2F2Od7EoENBc1zhu1YsnKcdKv0Za2s7uxSs3QdXakCy6PfW58GNINEEm1Bw6OjX5zXINRDJgtTRCAyf5G2CXyIulhF-3xmwHf-VOPFNKrbNDbM4K9yYaa-NxayYUAnlOkLp9ry7XH_LUMnbyVeKmdV7kvbi2nuIupyYqgR8NwaY877Lu_nISR5ECXsSXbXSS3BEWGifo_ekD6tbA_iEnf86"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 mt-16 p-xl">
+<div class="max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="mb-xl flex justify-between items-end">
+<div>
+<nav class="flex text-caption text-gray-500 mb-xs gap-xs items-center">
+<span>Main Portal</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Statistics</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">AI Detections</span>
+</nav>
+<h2 class="font-h1 text-h1 text-on-surface">Detection Summary</h2>
+<p class="text-body-md text-gray-600 mt-xs">Analysis of automated civic reporting via AI computer vision models.</p>
+</div>
+<button class="bg-primary hover:bg-green-800 text-white px-lg py-md rounded-lg font-label-md flex items-center gap-sm transition-all shadow-md active:scale-95">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                    Generate Report
+                </button>
+</div>
+<!-- Bento Grid Layout for Stats -->
+<div class="grid grid-cols-12 gap-lg mb-xl">
+<!-- Main Bar Chart Card -->
+<div class="col-span-12 lg:col-span-8 bg-white border border-gray-200 rounded-xl p-xl shadow-sm">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-h3 text-h3">Total Detections by Issue Type</h3>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs text-caption text-gray-500">
+<span class="w-3 h-3 bg-primary rounded-full"></span> Active
+                            </span>
+<span class="flex items-center gap-xs text-caption text-gray-500">
+<span class="w-3 h-3 bg-primary/20 rounded-full"></span> Resolved
+                            </span>
+</div>
+</div>
+<div class="chart-bar-container relative border-b border-gray-100 pb-2">
+<!-- Y-Axis Labels -->
+<div class="absolute -left-12 top-0 h-full flex flex-col justify-between text-caption text-gray-400 py-1">
+<span>1200</span><span>900</span><span>600</span><span>300</span><span>0</span>
+</div>
+<!-- Pothole -->
+<div class="flex-1 flex flex-col items-center">
+<div class="chart-bar bg-primary w-full max-w-[80px]" style="height: 75%;">
+<div class="chart-tooltip bg-gray-900 text-white px-2 py-1 rounded text-caption font-bold">942</div>
+</div>
+<p class="mt-md font-label-md text-gray-700">Pothole</p>
+</div>
+<!-- Garbage -->
+<div class="flex-1 flex flex-col items-center">
+<div class="chart-bar bg-primary w-full max-w-[80px]" style="height: 85%;">
+<div class="chart-tooltip bg-gray-900 text-white px-2 py-1 rounded text-caption font-bold">1,104</div>
+</div>
+<p class="mt-md font-label-md text-gray-700">Garbage</p>
+</div>
+<!-- Road Damage -->
+<div class="flex-1 flex flex-col items-center">
+<div class="chart-bar bg-primary w-full max-w-[80px]" style="height: 60%;">
+<div class="chart-tooltip bg-gray-900 text-white px-2 py-1 rounded text-caption font-bold">756</div>
+</div>
+<p class="mt-md font-label-md text-gray-700">Road Damage</p>
+</div>
+<!-- Helmet Violation -->
+<div class="flex-1 flex flex-col items-center">
+<div class="chart-bar bg-primary w-full max-w-[80px]" style="height: 95%;">
+<div class="chart-tooltip bg-gray-900 text-white px-2 py-1 rounded text-caption font-bold">1,218</div>
+</div>
+<p class="mt-md font-label-md text-gray-700">Helmet Violation</p>
+</div>
+<!-- Open Manhole -->
+<div class="flex-1 flex flex-col items-center">
+<div class="chart-bar bg-primary w-full max-w-[80px]" style="height: 35%;">
+<div class="chart-tooltip bg-gray-900 text-white px-2 py-1 rounded text-caption font-bold">412</div>
+</div>
+<p class="mt-md font-label-md text-gray-700">Open Manhole</p>
+</div>
+</div>
+</div>
+<!-- Detection Trend Summary -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+<!-- Stat 1 -->
+<div class="bg-white border border-gray-200 rounded-xl p-lg shadow-sm flex items-center justify-between">
+<div>
+<p class="text-caption text-gray-500 uppercase tracking-wider mb-xs">Daily Average</p>
+<h4 class="text-h3 font-bold text-on-surface">144.2</h4>
+<p class="text-caption text-green-600 font-bold flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +12% vs last month
+                            </p>
+</div>
+<div class="bg-green-50 p-md rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="insights">insights</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-white border border-gray-200 rounded-xl p-lg shadow-sm flex items-center justify-between">
+<div>
+<p class="text-caption text-gray-500 uppercase tracking-wider mb-xs">Top Critical Area</p>
+<h4 class="text-h3 font-bold text-on-surface">Gulshan-e-Iqbal</h4>
+<p class="text-caption text-gray-500 mt-xs">District East</p>
+</div>
+<div class="bg-secondary-container p-md rounded-xl">
+<span class="material-symbols-outlined text-on-secondary-container text-3xl" data-icon="location_on">location_on</span>
+</div>
+</div>
+<!-- Recent Activity Mini Card -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-lg shadow-md flex-grow">
+<h4 class="font-bold text-lg mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                            AI Model Status
+                        </h4>
+<div class="space-y-md">
+<div class="flex justify-between items-center text-sm">
+<span>Confidence Threshold</span>
+<span class="font-bold">0.85</span>
+</div>
+<div class="w-full bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-white h-full w-[85%]"></div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span>Processing Latency</span>
+<span class="font-bold">42ms</span>
+</div>
+</div>
+<button class="w-full mt-xl bg-white/20 hover:bg-white/30 text-white font-label-md py-sm rounded-lg transition-colors">
+                            Model Settings
+                        </button>
+</div>
+</div>
+</div>
+<!-- Detailed Data Table Section -->
+<div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+<div class="px-xl py-lg border-b border-gray-100 flex justify-between items-center">
+<h3 class="font-h3 text-h3">Live Detection Feed</h3>
+<div class="flex gap-sm">
+<select class="border-gray-200 rounded-lg text-sm font-label-md text-gray-600 focus:ring-primary focus:border-primary">
+<option>Filter by Type</option>
+<option>Pothole</option>
+<option>Garbage</option>
+</select>
+<button class="bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-gray-600" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-caption text-gray-500 uppercase">
+<th class="px-xl py-md font-semibold">Incident ID</th>
+<th class="px-xl py-md font-semibold">Classification</th>
+<th class="px-xl py-md font-semibold">Location</th>
+<th class="px-xl py-md font-semibold">Confidence</th>
+<th class="px-xl py-md font-semibold">Status</th>
+<th class="px-xl py-md font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 font-body-md">
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-xl py-md text-sm font-bold text-gray-900">#AI-90231</td>
+<td class="px-xl py-md">
+<span class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="warning">warning</span>
+                                    Open Manhole
+                                </span>
+</td>
+<td class="px-xl py-md text-sm">Shahrah-e-Faisal, Opp. FTC</td>
+<td class="px-xl py-md">
+<div class="flex items-center gap-sm text-sm">
+<div class="w-16 bg-gray-200 h-1 rounded-full">
+<div class="bg-primary h-full w-[98%]"></div>
+</div>
+                                    98.2%
+                                </div>
+</td>
+<td class="px-xl py-md">
+<span class="bg-red-50 text-red-700 px-3 py-1 rounded-full text-caption font-bold border border-red-100 uppercase tracking-tighter">High Priority</span>
+</td>
+<td class="px-xl py-md">
+<button class="text-primary hover:underline font-label-md">View Capture</button>
+</td>
+</tr>
+<tr class="bg-gray-50/30 hover:bg-gray-50 transition-colors">
+<td class="px-xl py-md text-sm font-bold text-gray-900">#AI-90228</td>
+<td class="px-xl py-md">
+<span class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="delete_outline">delete_outline</span>
+                                    Garbage
+                                </span>
+</td>
+<td class="px-xl py-md text-sm">Saddar, Empress Market Area</td>
+<td class="px-xl py-md">
+<div class="flex items-center gap-sm text-sm">
+<div class="w-16 bg-gray-200 h-1 rounded-full">
+<div class="bg-primary h-full w-[84%]"></div>
+</div>
+                                    84.5%
+                                </div>
+</td>
+<td class="px-xl py-md">
+<span class="bg-secondary-container text-secondary px-3 py-1 rounded-full text-caption font-bold border border-secondary-fixed-dim uppercase tracking-tighter">Assigned</span>
+</td>
+<td class="px-xl py-md">
+<button class="text-primary hover:underline font-label-md">View Capture</button>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-xl py-md text-sm font-bold text-gray-900">#AI-90225</td>
+<td class="px-xl py-md">
+<span class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="moped">moped</span>
+                                    Helmet Violation
+                                </span>
+</td>
+<td class="px-xl py-md text-sm">Karsaz Flyover, Northbound</td>
+<td class="px-xl py-md">
+<div class="flex items-center gap-sm text-sm">
+<div class="w-16 bg-gray-200 h-1 rounded-full">
+<div class="bg-primary h-full w-[99%]"></div>
+</div>
+                                    99.8%
+                                </div>
+</td>
+<td class="px-xl py-md">
+<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-caption font-bold border border-gray-200 uppercase tracking-tighter">Verified</span>
+</td>
+<td class="px-xl py-md">
+<button class="text-primary hover:underline font-label-md">View Capture</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-xl py-md border-t border-gray-100 flex items-center justify-between bg-gray-50/50">
+<p class="text-caption text-gray-500">Showing 3 of 1,248 detections in the selected period.</p>
+<div class="flex gap-xs">
+<button class="p-2 border border-gray-200 rounded hover:bg-white transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-2 border border-gray-200 rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

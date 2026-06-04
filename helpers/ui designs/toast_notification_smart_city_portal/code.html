@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary": "#2b694e",
+            "on-surface": "#191c1d",
+            "error-container": "#ffdad6",
+            "tertiary-fixed": "#ffd9e5",
+            "on-surface-variant": "#404a3b",
+            "inverse-surface": "#2e3132",
+            "surface-tint": "#106e09",
+            "surface-container-low": "#f3f4f5",
+            "error": "#ba1a1a",
+            "outline": "#707a6a",
+            "on-tertiary-fixed": "#3d0023",
+            "on-primary-container": "#88e274",
+            "surface-container-high": "#e7e8e9",
+            "primary-fixed": "#9cf987",
+            "on-primary-fixed": "#002200",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#005300",
+            "inverse-on-surface": "#f0f1f2",
+            "tertiary": "#7b0d4c",
+            "background": "#f8f9fa",
+            "secondary-fixed-dim": "#94d4b3",
+            "on-tertiary": "#ffffff",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#327054",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#b0f1ce",
+            "surface-container-highest": "#e1e3e4",
+            "inverse-primary": "#81db6e",
+            "tertiary-container": "#9a2a64",
+            "surface-variant": "#e1e3e4",
+            "primary-fixed-dim": "#81db6e",
+            "on-error": "#ffffff",
+            "surface-container": "#edeeef",
+            "primary": "#004b00",
+            "outline-variant": "#bfcab7",
+            "primary-container": "#006600",
+            "surface": "#f8f9fa",
+            "on-secondary-fixed": "#002114",
+            "tertiary-fixed-dim": "#ffb0cf",
+            "surface-bright": "#f8f9fa",
+            "on-tertiary-container": "#ffb9d4",
+            "on-secondary-fixed-variant": "#0b5138",
+            "secondary-fixed": "#b0f1ce",
+            "on-tertiary-fixed-variant": "#851753",
+            "surface-dim": "#d9dadb",
+            "on-secondary": "#ffffff",
+            "on-background": "#191c1d"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "md": "16px",
+            "3xl": "64px",
+            "base-unit": "4px",
+            "sm": "8px",
+            "lg": "24px",
+            "gutter": "24px",
+            "2xl": "48px",
+            "xs": "4px",
+            "xl": "32px",
+            "container-max": "1280px"
+          },
+          "fontFamily": {
+            "label-md": ["Public Sans"],
+            "body-lg": ["Public Sans"],
+            "caption": ["Public Sans"],
+            "h3": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "h2": ["Public Sans"],
+            "h1": ["Public Sans"]
+          },
+          "fontSize": {
+            "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+            "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+            "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body { font-family: 'Public Sans', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background antialiased overflow-hidden">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-emerald-900 bg-[#064E35] dark:bg-emerald-950 shadow-xl flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<div class="text-lg font-bold tracking-tight text-white">Smart City Portal</div>
+<div class="text-xs text-emerald-100/60 uppercase tracking-widest mt-1">Government of Pakistan</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-label-md text-label-md">Submit Complaint</span>
+</a>
+<!-- Active State: My Complaints -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white/10 border-l-4 border-white text-white font-semibold transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-md text-label-md">My Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<div class="px-6 pt-6 border-t border-emerald-800/50 mt-auto">
+<div class="flex items-center gap-3">
+<img alt="Citizen Profile Avatar" class="w-10 h-10 rounded-full border border-white/20" data-alt="A professional close-up portrait of a Pakistani citizen against a soft, blurred urban background. The lighting is natural and bright, conveying a sense of transparency and digital progress. The person has a friendly, engaged expression, representing an empowered participant in a modern smart city ecosystem. The color palette is natural and warm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWybHOMpHAsIG9dY5J5mGTaUOitJuHM2XJ3HFJbD175PmA20eKQeFZ8zdMm9iOqvz4vLN-btvV9ju9_p6BUC0eq2gniARIWbUc43nTJ51T197A4n77GWF0wYP1a3Wb1w6dX_QQ2wixAl3iVYSnv9vm1aZeRLWNqPOLRS3x8IDJS-pHtGArDtXq3vpsAUSg985yRHMXH2lb-ktifAkPXhYxd7jky4CQvYTl5jfGEs4s7f4_rqFVFcuw7RQ8EETV9Fm1JxKppzq49mHt"/>
+<div>
+<div class="text-white font-label-md text-label-md">Ahmed Khan</div>
+<div class="text-emerald-100/50 text-xs">Citizen Account</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Component -->
+<header class="fixed top-0 right-0 left-64 h-16 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center px-8 w-full">
+<div class="flex items-center gap-4">
+<h1 class="text-xl font-black text-emerald-900 dark:text-emerald-100">My Complaints</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-sm">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-50 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary-container" placeholder="Search complaints..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-all duration-200 ease-in-out">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-all duration-200 ease-in-out">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area (Background Context) -->
+<main class="pl-64 pt-16 h-screen overflow-y-auto">
+<div class="max-w-[1280px] mx-auto p-xl">
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md mb-xl">
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="text-slate-500 text-caption font-caption mb-1">Total Filed</div>
+<div class="text-h3 font-h3 text-primary">12</div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="text-slate-500 text-caption font-caption mb-1">In Progress</div>
+<div class="text-h3 font-h3 text-secondary">04</div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm border-l-4 border-l-primary">
+<div class="text-slate-500 text-caption font-caption mb-1">Resolved</div>
+<div class="text-h3 font-h3 text-primary">07</div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="text-slate-500 text-caption font-caption mb-1">Pending Action</div>
+<div class="text-h3 font-h3 text-error">01</div>
+</div>
+</div>
+<!-- Dashboard Layout -->
+<div class="grid grid-cols-12 gap-xl">
+<!-- Main List Section -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden">
+<div class="px-xl py-lg border-b border-outline-variant flex justify-between items-center">
+<h2 class="text-body-lg font-h2">Recent Complaint Activity</h2>
+<button class="text-sm font-semibold text-primary hover:underline">View All History</button>
+</div>
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-md text-xs uppercase tracking-wider">
+<tr>
+<th class="px-xl py-md">ID</th>
+<th class="px-xl py-md">Category</th>
+<th class="px-xl py-md">Subject</th>
+<th class="px-xl py-md">Status</th>
+<th class="px-xl py-md text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors bg-surface-container-low/30">
+<td class="px-xl py-md font-bold text-slate-900">#SC-1024</td>
+<td class="px-xl py-md">Utility Services</td>
+<td class="px-xl py-md">Water Leakage on Main Street</td>
+<td class="px-xl py-md">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase">In Progress</span>
+</td>
+<td class="px-xl py-md text-right">
+<button class="text-primary material-symbols-outlined">visibility</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-xl py-md font-bold text-slate-900">#SC-0988</td>
+<td class="px-xl py-md">Infrastructure</td>
+<td class="px-xl py-md">Pothole Repair Near School</td>
+<td class="px-xl py-md">
+<span class="px-3 py-1 rounded-full bg-primary-container/20 text-primary text-xs font-bold uppercase">Resolved</span>
+</td>
+<td class="px-xl py-md text-right">
+<button class="text-primary material-symbols-outlined">visibility</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-xl py-md font-bold text-slate-900">#SC-1102</td>
+<td class="px-xl py-md">Waste Management</td>
+<td class="px-xl py-md">Uncollected Trash - Sector G-8</td>
+<td class="px-xl py-md">
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-bold uppercase">Pending</span>
+</td>
+<td class="px-xl py-md text-right">
+<button class="text-primary material-symbols-outlined">visibility</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Sidebar Summary Section -->
+<div class="col-span-12 lg:col-span-4 space-y-xl">
+<div class="bg-white border border-outline-variant p-xl rounded-xl shadow-sm">
+<h3 class="text-label-md font-h3 mb-md">Status Overview</h3>
+<div class="space-y-md">
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="flex-1 text-sm">Resolved Complaints</div>
+<div class="text-sm font-bold">58%</div>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 58%"></div>
+</div>
+<div class="flex items-center gap-4 pt-4 border-t border-slate-50">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex-1 text-sm">Under Review</div>
+<div class="text-sm font-bold">33%</div>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 33%"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary text-white p-xl rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-lg font-bold mb-2">Need Immediate Help?</h3>
+<p class="text-white/80 text-sm mb-6">Contact the 24/7 Smart City Helpline for urgent municipal issues that require rapid intervention.</p>
+<button class="bg-white text-primary px-6 py-2 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">Call 1234</button>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- TOAST NOTIFICATION COMPONENT -->
+<!-- Positioned bottom-right -->
+<div class="fixed bottom-xl right-xl z-[100] flex animate-in slide-in-from-right duration-300">
+<div class="bg-white border border-outline-variant shadow-2xl rounded-lg overflow-hidden flex min-w-[380px] max-w-[450px] border-l-4 border-l-primary-container">
+<!-- Content Area -->
+<div class="flex-1 p-md flex items-start gap-4">
+<!-- Success Icon -->
+<div class="mt-1 flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-on-surface font-label-md text-label-md pr-6">Complaint #SC-1024 status updated to In Progress</p>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-base" data-icon="close">close</span>
+</button>
+</div>
+<div class="mt-2 flex items-center gap-3">
+<button class="text-xs font-bold text-primary-container hover:underline uppercase tracking-tight">View Details</button>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="text-xs text-slate-500">Just now</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Background overlay for focus (Optional visual polish) -->
+<div class="fixed inset-0 bg-slate-900/5 pointer-events-none z-[90]"></div>
+</body></html>

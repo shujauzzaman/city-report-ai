@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications - Smart City Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#2b694e",
+                    "on-surface": "#191c1d",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#ffd9e5",
+                    "on-surface-variant": "#404a3b",
+                    "inverse-surface": "#2e3132",
+                    "surface-tint": "#106e09",
+                    "surface-container-low": "#f3f4f5",
+                    "error": "#ba1a1a",
+                    "outline": "#707a6a",
+                    "on-tertiary-fixed": "#3d0023",
+                    "on-primary-container": "#88e274",
+                    "surface-container-high": "#e7e8e9",
+                    "primary-fixed": "#9cf987",
+                    "on-primary-fixed": "#002200",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#005300",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary": "#7b0d4c",
+                    "background": "#f8f9fa",
+                    "secondary-fixed-dim": "#94d4b3",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#327054",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#b0f1ce",
+                    "surface-container-highest": "#e1e3e4",
+                    "inverse-primary": "#81db6e",
+                    "tertiary-container": "#9a2a64",
+                    "surface-variant": "#e1e3e4",
+                    "primary-fixed-dim": "#81db6e",
+                    "on-error": "#ffffff",
+                    "surface-container": "#edeeef",
+                    "primary": "#004b00",
+                    "outline-variant": "#bfcab7",
+                    "primary-container": "#006600",
+                    "surface": "#f8f9fa",
+                    "on-secondary-fixed": "#002114",
+                    "tertiary-fixed-dim": "#ffb0cf",
+                    "surface-bright": "#f8f9fa",
+                    "on-tertiary-container": "#ffb9d4",
+                    "on-secondary-fixed-variant": "#0b5138",
+                    "secondary-fixed": "#b0f1ce",
+                    "on-tertiary-fixed-variant": "#851753",
+                    "surface-dim": "#d9dadb",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#191c1d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "3xl": "64px",
+                    "base-unit": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "2xl": "48px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "label-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "caption": ["Public Sans"],
+                    "h3": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "h2": ["Public Sans"],
+                    "h1": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-emerald-900 bg-[#064E35] dark:bg-emerald-950 shadow-xl flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="text-lg font-bold tracking-tight text-white">Smart City Portal</h1>
+<p class="text-[10px] uppercase tracking-widest text-emerald-300/70 font-semibold">Government of Pakistan</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-label-md text-label-md">Submit Complaint</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-md text-label-md">My Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white/10 border-l-4 border-white text-white font-semibold transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-emerald-100/70 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto px-6 py-4 border-t border-emerald-800/50 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center overflow-hidden border-2 border-emerald-500/30">
+<img alt="Citizen Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged Pakistani man with a warm, confident expression. He is wearing a crisp white shalwar kameez, set against a blurred office background with soft daylight. The lighting is professional and clear, reflecting a modern light-mode UI aesthetic that emphasizes transparency and institutional trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqmZubhRseu-gmVChthde0UIVyTfn0qxIrhYHAyo0dW-pvBXCa45oUFHlcQp81unCh_7yddhZUfr_cda1qdBKs2dqD0kCdMtNo65dwLhJnXgiNCHP1Fs1AF99DZYf7wCPCjMIa26JmXOrrMlochbja0Zza8X9zraGcNIvGUtR-m0GpDa9CgBNe-cHjBXnvC8bjDHjCVdXuUT2wYlSZBsMXLpDz8KodwrSUPsVhbRyfHTalQbBLvYWRngypKPt9d5GciMxzifI7mlLH"/>
+</div>
+<div class="flex flex-col">
+<span class="text-white text-sm font-bold">Ahmed Ali</span>
+<span class="text-emerald-300/60 text-xs">Citizen ID: #8821</span>
+</div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-white border-b border-slate-200 z-40 flex justify-between items-center px-8">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-emerald-900">Detection System</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-72">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search notifications..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-slate-400 text-lg">search</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-50 rounded-md transition-all">
+<span class="material-symbols-outlined text-slate-500" data-icon="help_outline">help_outline</span>
+</button>
+<button class="p-2 hover:bg-slate-50 rounded-md transition-all">
+<span class="material-symbols-outlined text-slate-500" data-icon="settings">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-16 min-h-screen bg-background">
+<div class="max-w-4xl mx-auto px-8 py-12">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h2 class="font-h2 text-h2 text-primary mb-2">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Stay updated with your complaint status and civic alerts.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 flex items-center gap-2 bg-white border border-outline-variant rounded-lg text-sm font-semibold hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        All Alerts
+                    </button>
+<button class="px-4 py-2 flex items-center gap-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-container transition-colors">
+                        Mark all as read
+                    </button>
+</div>
+</div>
+<!-- Bento Layout Content -->
+<div class="space-y-8">
+<!-- Section: Today -->
+<section>
+<div class="flex items-center gap-4 mb-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest">Today</span>
+<div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="space-y-3">
+<!-- Unread Notification Card -->
+<div class="group bg-secondary-container/20 border border-secondary/20 rounded-xl p-md flex gap-lg items-start transition-all hover:bg-secondary-container/30 hover:border-secondary/40">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" data-icon="task_alt">task_alt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Complaint Resolved</h4>
+<span class="text-caption font-caption text-secondary font-bold">10:45 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Your complaint #KHI-2948 regarding street light maintenance in Gulshan-e-Iqbal has been successfully resolved by the municipal team.</p>
+<div class="flex items-center gap-4">
+<button class="text-primary font-bold text-sm hover:underline">View Details</button>
+<button class="text-on-surface-variant font-medium text-sm hover:text-on-surface">Dismiss</button>
+</div>
+</div>
+<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+</div>
+<!-- Unread Notification Card -->
+<div class="group bg-secondary-container/20 border border-secondary/20 rounded-xl p-md flex gap-lg items-start transition-all hover:bg-secondary-container/30 hover:border-secondary/40">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Scheduled Power Outage</h4>
+<span class="text-caption font-caption text-secondary font-bold">08:12 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">A scheduled maintenance outage is planned for your area (Zone 4) tomorrow between 2:00 PM and 5:00 PM. Please plan accordingly.</p>
+<div class="flex items-center gap-4">
+<button class="text-primary font-bold text-sm hover:underline">View Schedule</button>
+<button class="text-on-surface-variant font-medium text-sm hover:text-on-surface">Dismiss</button>
+</div>
+</div>
+<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+</div>
+</div>
+</section>
+<!-- Section: Earlier -->
+<section>
+<div class="flex items-center gap-4 mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Earlier</span>
+<div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="space-y-3">
+<!-- Read Notification Card -->
+<div class="group bg-white border border-outline-variant rounded-xl p-md flex gap-lg items-start transition-all hover:bg-surface-container-low">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">New Policy Update</h4>
+<span class="text-caption font-caption text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">The Smart City Council has updated the waste management protocols for residential sectors. Read the new guidelines here.</p>
+<div class="flex items-center gap-4">
+<button class="text-secondary font-bold text-sm hover:underline">Read Policy</button>
+</div>
+</div>
+</div>
+<!-- Read Notification Card -->
+<div class="group bg-white border border-outline-variant rounded-xl p-md flex gap-lg items-start transition-all hover:bg-surface-container-low">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Complaint Received</h4>
+<span class="text-caption font-caption text-on-surface-variant">Feb 24, 2024</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Your complaint #ISB-4402 regarding water supply pressure has been logged and assigned to the local sub-divisional officer.</p>
+<div class="flex items-center gap-4">
+<button class="text-secondary font-bold text-sm hover:underline">Track Progress</button>
+</div>
+</div>
+</div>
+<!-- Read Notification Card -->
+<div class="group bg-white border border-outline-variant rounded-xl p-md flex gap-lg items-start transition-all hover:bg-surface-container-low">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Town Hall Meeting</h4>
+<span class="text-caption font-caption text-on-surface-variant">Feb 22, 2024</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Join the Deputy Commissioner for a digital town hall regarding the upcoming "Clean Green Pakistan" initiative in your district.</p>
+<div class="flex items-center gap-4">
+<button class="text-secondary font-bold text-sm hover:underline">View Recording</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Load More / Empty State Prompt -->
+<div class="text-center py-8">
+<button class="px-8 py-3 border border-outline text-on-surface-variant font-bold rounded-lg hover:bg-white hover:text-primary transition-all">
+                        Load Older Notifications
+                    </button>
+</div>
+</div>
+<!-- Contextual Information Card -->
+<aside class="mt-16 bg-primary-container/10 border border-primary/10 rounded-2xl p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="w-full md:w-1/3 overflow-hidden rounded-xl h-48">
+<img class="w-full h-full object-cover" data-alt="A clean, modern architectural shot of a government administrative building in Pakistan featuring sleek Islamic geometric patterns integrated into concrete facades. The building is surrounded by well-maintained green gardens and a bright blue sky. The lighting is crisp and optimistic, representing the progress and transparency of the digital governance portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSpxqQEQN4otNrkLobl-Bt9L-WCEXYCB61B4560rfaC7OqS3EjxlsEfdAE2jK-zkoEWF9f3JSsYcAC5Rs1SqZcWIC41BB6pnyCZjrTvAMBFdYHLXW8k5u6ro-PtoQ4osCmXcH3Q8CP2A3Rj7V9jUltLy3ipYvuGm9PNnYReawWMhC-SMlTh-NgmZVV4VUnH3XUiUMgYRP3j5CCEXHEPNTp7MKY-HBIlBtOI3UrgXK9ekkSu6Vs1CMuqUUmZdeqmap-ADRKSRvy2iZo"/>
+</div>
+<div class="flex-1">
+<h3 class="font-h3 text-h3 text-primary mb-4">Never miss an update</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Enable SMS and Email alerts in your profile settings to receive critical infrastructure updates and complaint progress directly on your mobile device.</p>
+<a class="inline-flex items-center gap-2 font-bold text-primary hover:gap-3 transition-all" href="#">
+                        Go to Notification Settings
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</aside>
+</div>
+</main>
+<!-- FAB for quick complaint - only on top level pages -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

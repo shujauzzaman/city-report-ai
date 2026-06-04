@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Submit Complaint | Smart City Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#81db6e",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-dim": "#d9dadb",
+                    "secondary-fixed": "#b0f1ce",
+                    "on-surface": "#191c1d",
+                    "on-surface-variant": "#404a3b",
+                    "surface-tint": "#106e09",
+                    "outline-variant": "#bfcab7",
+                    "on-primary-fixed": "#002200",
+                    "tertiary-fixed-dim": "#ffb0cf",
+                    "tertiary-fixed": "#ffd9e5",
+                    "primary-fixed": "#9cf987",
+                    "background": "#f8f9fa",
+                    "surface-container-highest": "#e1e3e4",
+                    "secondary-fixed-dim": "#94d4b3",
+                    "inverse-primary": "#81db6e",
+                    "tertiary": "#7b0d4c",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "on-tertiary-fixed": "#3d0023",
+                    "on-secondary-container": "#327054",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#9a2a64",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#88e274",
+                    "surface": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#0b5138",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#b0f1ce",
+                    "on-background": "#191c1d",
+                    "primary": "#004b00",
+                    "inverse-surface": "#2e3132",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#851753",
+                    "on-tertiary-container": "#ffb9d4",
+                    "surface-container-high": "#e7e8e9",
+                    "secondary": "#2b694e",
+                    "surface-container": "#edeeef",
+                    "primary-container": "#006600",
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline": "#707a6a",
+                    "on-primary-fixed-variant": "#005300"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base-unit": "4px",
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "3xl": "64px",
+                    "2xl": "48px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "h2": ["Public Sans"],
+                    "h3": ["Public Sans"],
+                    "h1": ["Public Sans"],
+                    "caption": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "body-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- SideNavBar Component -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-[#064E35] flex flex-col py-6 border-r border-emerald-800 shadow-xl z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-white font-bold text-lg leading-tight">Smart City</h1>
+<p class="text-emerald-100/70 text-xs tracking-wide">Citizen Portal</p>
+</div>
+</div>
+<div class="flex-1 space-y-1 px-0">
+<a class="flex items-center gap-3 text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all font-label-md text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-3 bg-white/10 border-l-4 border-white text-white font-semibold py-3 px-6 font-label-md text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Submit Complaint
+            </a>
+<a class="flex items-center gap-3 text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all font-label-md text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                My Complaints
+            </a>
+<a class="flex items-center gap-3 text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all font-label-md text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                Notifications
+            </a>
+<a class="flex items-center gap-3 text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all font-label-md text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Profile
+            </a>
+</div>
+<div class="px-6 mt-auto">
+<div class="pt-6 border-t border-emerald-800">
+<div class="flex items-center gap-3 text-white/80">
+<img alt="User" class="w-10 h-10 rounded-full border border-emerald-600" data-alt="A professional headshot of a young citizen for a government portal profile. The lighting is soft and natural, emphasizing a trustworthy and clear appearance. The background is a simple, neutral studio setting in light-mode colors, maintaining a corporate yet accessible aesthetic. The photo is framed as a high-quality circular avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8ap2cX3ZXAW3z0-H_7B6fgqa5iub5IO9ml4cuB1aELxBLleK-6cmzbOekxnvf5y0Tw4fOuHz8lRBavqy1tNbi9fA-VSFbwwsaP5vMFl7nlTofZNYMz9iuu9rZ9PS105sa8W7vq3iZuG68VfZrAhegYbBTRzI6N4edo3VFwzKBB9_PKtEHiBTCM9sQDMgxXGTVOXWoMK65niaFAeGWtXwuUI_ZNkzbGIRDrzvaGaNNuN1dAE_FTNDCrFuvqpYcmSGgEzifZ3490gTY"/>
+<div class="overflow-hidden">
+<p class="text-sm font-semibold truncate">Ahmed Khan</p>
+<p class="text-xs text-emerald-100/50 truncate">ID: #40291-K</p>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (Large/Contextual) -->
+<header class="flex justify-between items-center px-6 h-16 w-full bg-white border-b border-gray-200 sticky top-0 z-40">
+<div class="flex items-center gap-2 text-emerald-900 font-public-sans text-sm font-medium">
+<span class="text-gray-400">Portal</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-emerald-700 font-semibold">New Report</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+<input class="bg-gray-50 border border-gray-200 text-sm rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Search services..." type="text"/>
+</div>
+<button class="p-2 text-gray-600 hover:bg-gray-50 transition-colors rounded-lg relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="max-w-4xl mx-auto px-gutter py-2xl">
+<!-- Page Header -->
+<div class="mb-xl">
+<h2 class="font-h1 text-h1 text-primary mb-xs">Report an Issue</h2>
+<p class="font-body-lg text-on-surface-variant">Provide the details of the concern to help us serve our community better.</p>
+</div>
+<!-- Main Form Card -->
+<div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+<form class="p-xl space-y-lg">
+<!-- Issue Type -->
+<!-- Image Upload Area -->
+<div>
+<label class="block font-label-md text-on-surface mb-sm">Photo Evidence</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-3xl text-center bg-surface-container-lowest hover:bg-gray-50 transition-colors cursor-pointer group">
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="font-h3 text-body-lg font-semibold text-on-surface">Drag &amp; drop or browse</h3>
+<p class="text-caption text-on-surface-variant mt-xs">Support JPG, PNG, up to 10MB each</p>
+</div>
+</div>
+</div>
+<!-- Location Input -->
+<div>
+<label class="block font-label-md text-on-surface mb-sm">Incident Location</label>
+<div class="flex gap-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" data-icon="location_on">location_on</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:ring-2 focus:ring-primary focus:border-primary text-body-md" placeholder="Enter street address or area..." type="text"/>
+</div>
+<button class="flex items-center gap-2 bg-secondary-container text-on-secondary-container px-lg py-sm rounded-lg font-label-md hover:bg-secondary-fixed transition-colors" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="my_location">my_location</span>
+                                Use My Location
+                            </button>
+</div>
+<div class="mt-md rounded-lg overflow-hidden border border-outline-variant h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A stylized digital map view of a metropolitan area in Pakistan, featuring clean lines, green-tinted zones for parks, and subtle grey for roads. The map uses a light-mode aesthetic with high clarity, showing essential landmarks and street grids. The overall visual style is corporate and technical, suitable for a government portal dashboard tracking service requests." data-location="Islamabad, Pakistan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQG0Wd1p3rzZxjNDVnGy56zfNKSmz33Q7x7k-Nj24-89FN-Jas3IrPE7dbdKqJk-CRj4BkfpNrxjhzSte9IaKM1383drsIceXpNUzfbB4mDr0dNIOxQMihvKKN3FCmgopntIVkvXLASLlUM-Dh2Da8kFYULTEgwlV6rA-ir63d01vh8jrv-mH4QJsJDIbPZhOqmwfhXaeJjWZOxeIiUcuhGAbORQlDSDBVj0H1vk6nIVhYyDWIUKVw-emJxCSOKEa6or4aoEbG_GSq"/>
+<div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+</div>
+</div>
+<!-- Issue Description -->
+<div>
+<label class="block font-label-md text-on-surface mb-sm">Detailed Description</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-sm focus:ring-2 focus:ring-primary focus:border-primary text-body-md resize-none" placeholder="Describe the problem in detail so our team can resolve it efficiently..." rows="5"></textarea>
+</div>
+<!-- Submit Button -->
+<div class="pt-md border-t border-gray-100 flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="info" style="font-variation-settings: 'FILL' 1;">info</span>
+<span class="text-caption">Tracking number will be sent via SMS</span>
+</div>
+<div class="flex gap-md">
+<button class="px-xl py-sm border border-outline-variant rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container-low transition-all" type="button">
+                                Save Draft
+                            </button>
+<button class="px-xl py-sm bg-primary-container text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-[0.98] transition-all shadow-md" type="submit">
+                                Submit Report
+                            </button>
+</div>
+</div>
+</form>
+</div>
+<!-- Guidelines / Bento Style Info -->
+<div class="mt-2xl grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="p-lg bg-white border border-gray-100 rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="verified_user">verified_user</span>
+<h4 class="font-label-md mb-xs">Privacy Assured</h4>
+<p class="text-caption text-on-surface-variant leading-relaxed">Your identity is only shared with relevant department officials for investigation.</p>
+</div>
+<div class="p-lg bg-white border border-gray-100 rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="speed">speed</span>
+<h4 class="font-label-md mb-xs">48h Response</h4>
+<p class="text-caption text-on-surface-variant leading-relaxed">Most non-emergency complaints are assigned to a field officer within 48 business hours.</p>
+</div>
+<div class="p-lg bg-white border border-gray-100 rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="track_changes">track_changes</span>
+<h4 class="font-label-md mb-xs">Real-time Tracking</h4>
+<p class="text-caption text-on-surface-variant leading-relaxed">Monitor the progress of your report through the 'My Complaints' section at any time.</p>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto px-6 py-lg border-t border-gray-200 text-center">
+<p class="text-caption text-on-surface-variant">© 2024 Smart City Pakistan. Digital Services Department.</p>
+</footer>
+</main>
+</body></html>

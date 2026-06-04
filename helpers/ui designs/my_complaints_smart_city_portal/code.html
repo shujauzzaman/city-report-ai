@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Complaints - Smart City Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#edeeef",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#81db6e",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#b0f1ce",
+                        "secondary": "#2b694e",
+                        "on-secondary-fixed": "#002114",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffd9e5",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary": "#7b0d4c",
+                        "on-tertiary-fixed": "#3d0023",
+                        "surface-bright": "#f8f9fa",
+                        "on-surface-variant": "#404a3b",
+                        "on-primary-fixed-variant": "#005300",
+                        "on-secondary-container": "#327054",
+                        "surface": "#f8f9fa",
+                        "on-primary-fixed": "#002200",
+                        "secondary-container": "#b0f1ce",
+                        "surface-tint": "#106e09",
+                        "tertiary-container": "#9a2a64",
+                        "primary-fixed-dim": "#81db6e",
+                        "tertiary-fixed-dim": "#ffb0cf",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#ffb9d4",
+                        "on-primary-container": "#88e274",
+                        "surface-dim": "#d9dadb",
+                        "background": "#f8f9fa",
+                        "primary": "#004b00",
+                        "on-surface": "#191c1d",
+                        "primary-container": "#006600",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1d",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed-variant": "#0b5138",
+                        "on-error": "#ffffff",
+                        "outline": "#707a6a",
+                        "primary-fixed": "#9cf987",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#94d4b3",
+                        "on-tertiary-fixed-variant": "#851753",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e7e8e9",
+                        "outline-variant": "#bfcab7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "base-unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "xl": "32px",
+                        "3xl": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "h1": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "caption": ["Public Sans"],
+                        "h3": ["Public Sans"],
+                        "h2": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#064E35] dark:bg-emerald-950 border-r border-emerald-800 shadow-xl z-50">
+<div class="flex flex-col h-full py-6">
+<div class="px-6 mb-8 flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-white font-bold text-lg leading-tight">Smart City</h1>
+<p class="text-emerald-100/70 text-xs tracking-wide">Citizen Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="home">home</span>
+<span class="font-public-sans text-sm tracking-wide">Home</span>
+</a>
+<a class="flex items-center text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="add_circle">add_circle</span>
+<span class="font-public-sans text-sm tracking-wide">Submit Complaint</span>
+</a>
+<a class="flex items-center bg-white/10 border-l-4 border-white text-white font-semibold py-3 px-4 transition-all group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="assignment" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-public-sans text-sm tracking-wide">My Complaints</span>
+</a>
+<a class="flex items-center text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="notifications">notifications</span>
+<span class="font-public-sans text-sm tracking-wide">Notifications</span>
+</a>
+<a class="flex items-center text-emerald-100/70 hover:bg-white/5 py-3 px-4 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="person">person</span>
+<span class="font-public-sans text-sm tracking-wide">Profile</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="bg-white/5 rounded-xl p-4 flex items-center space-x-3">
+<img alt="Citizen Profile Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a middle-aged South Asian man in a business casual shirt, with a neutral and friendly expression. The lighting is soft and corporate, set against a clean, light-colored background that matches the portal's minimalist aesthetic. High-quality digital photography with sharp focus on the face." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUOxkCgqsMutPmZPSAiw1BZAgLI0-ETmwKt21k0LWeVR-AxveeN9VkPraqMfR8yqbWJ5QpyEdTe5a2xKO9te1hBgjZi0BNL-FhX7UOTq2PoOQcpYq3tWJybhyFbSG65DaXdipDGBeKGijdwqxWs9uTestOYAEbDbepo4gdqvz8YuQhBSzMS2r2i6wF4ORsNNNHaYXj6Rl5xxV2SOQl7qte1y7A2FpOPebtg_m3v-RNexG9szwhz6F_AdU7y9lLG3G2jyCmoqjEx0rT"/>
+<div class="overflow-hidden">
+<p class="text-white text-xs font-semibold truncate">Ahmed Khan</p>
+<p class="text-emerald-100/50 text-[10px] truncate">ID: 88291-PK</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar Component -->
+<header class="flex justify-between items-center px-6 h-16 w-full bg-white border-b border-gray-200 sticky top-0 z-40">
+<div>
+<h2 class="text-xl font-bold text-emerald-900 font-public-sans">My Complaints</h2>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<input class="bg-surface-container-low border-none rounded-full px-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary-container outline-none transition-all" placeholder="Search complaints..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-outline text-sm" data-icon="search">search</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-50 transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-emerald-900" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-lg max-w-container-max mx-auto">
+<!-- Filters & Summary -->
+<div class="mb-xl flex flex-wrap gap-4 items-center justify-between">
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white text-label-md rounded-lg flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+<span>All Complaints</span>
+</button>
+<button class="px-4 py-2 bg-white border border-outline-variant text-on-surface-variant text-label-md rounded-lg hover:bg-surface-container-low transition-colors">
+                        In Progress
+                    </button>
+<button class="px-4 py-2 bg-white border border-outline-variant text-on-surface-variant text-label-md rounded-lg hover:bg-surface-container-low transition-colors">
+                        Resolved
+                    </button>
+</div>
+<div class="text-caption text-outline">
+                    Showing 8 active complaints
+                </div>
+</div>
+<!-- Bento-ish Grid Layout for Complaints -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Complaint Card 1: Pothole -->
+<div class="lg:col-span-4 bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+<div class="h-48 relative">
+<img alt="Pothole issue" class="w-full h-full object-cover" data-alt="A detailed close-up shot of a significant pothole on a paved urban street in Pakistan during daylight. The asphalt is cracked and worn, showing the depth of the road damage. The lighting is bright and clear, emphasizing the textures of the broken road surface within a professional, documentative style suitable for a municipal report." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxMht5D1Yxk1LC4R0O8gqqcBJrEyS19pxLh1rSFAVdtP3mdFKd5Ro7ZCm3AHZb0hrAuvJitHSeNRmn6Eo2JH96R2cOnmYDqXscV1SkVKYV1Kw8ieA9U1SDYFNZHAbR_eJjxTNIBSD_r4E4Bo4q84YPZ53DJ0A_Mep0PRn5LHE8xHJKerp33ZWEpLBI6Zk2GSUY2wkxD1mSXvekh8LwnMaNIb_mEKSNZ4ypCdUBjOWNcnsr7G8gAb6A3Fxl3tbH_jM5Y-gF60VyfjlP"/>
+<div class="absolute top-4 right-4 bg-error-container text-on-error-container px-3 py-1 rounded-full text-caption font-bold shadow-sm">
+                            High Priority
+                        </div>
+</div>
+<div class="p-md flex-1">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-caption font-bold text-outline uppercase tracking-wider">#SC-1024</span>
+<span class="text-caption text-outline">Oct 12, 2023</span>
+</div>
+<h3 class="text-body-md font-bold text-emerald-900 mb-xs">Large Pothole - Main Road</h3>
+<p class="text-caption text-on-surface-variant mb-md line-clamp-2">Hazardous pothole located near the primary intersection of Sector F-7, causing traffic delays and vehicle damage.</p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-gray-100">
+<div class="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[12px] font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="pending">pending</span>
+                                In Progress
+                            </div>
+<button class="text-primary text-label-md hover:underline flex items-center">
+                                View Details
+                                <span class="material-symbols-outlined text-[16px] ml-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Complaint Card 2: Garbage -->
+<div class="lg:col-span-4 bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+<div class="h-48 relative">
+<img alt="Garbage accumulation" class="w-full h-full object-cover" data-alt="A wide-angle shot of uncollected domestic waste piled neatly in designated green bins on a clean suburban sidewalk. The scene is bright and airy with morning sunlight casting long shadows. The image is captured with a modern, high-resolution aesthetic, focusing on urban sanitation management and civic responsibility within a professional governmental context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC-XaPN7x51aNrVtlO4KS8a6SET-szJ_dY5WjSKAKXWIlP2Gq-xoTd6jurHpg0gYXCpfY5-LgNrqfiLW3HchbqhjdZuY-4ZfL8wv8OLWgG5CdYITinZ5Onp1NMb5qENjeGBAmzKXlOMhTlrzvo7vVcLDIYSu2mhNFJVLFSbZckFnuGfdpX0BYv-93cRm-RKc5WF12Kgg_pRP3JmrlUJ7YKRVVeqzwUf_99loPLxv9XZW7yS79e69AUZwsL6tveoV9nMSMj9a83mwBe"/>
+</div>
+<div class="p-md flex-1">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-caption font-bold text-outline uppercase tracking-wider">#SC-1028</span>
+<span class="text-caption text-outline">Oct 10, 2023</span>
+</div>
+<h3 class="text-body-md font-bold text-emerald-900 mb-xs">Uncollected Garbage</h3>
+<p class="text-caption text-on-surface-variant mb-md line-clamp-2">Garbage collection has been missed for three consecutive days in Block C, resulting in overflow and odor.</p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-gray-100">
+<div class="flex items-center bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-[12px] font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="outbox">outbox</span>
+                                Submitted
+                            </div>
+<button class="text-primary text-label-md hover:underline flex items-center">
+                                View Details
+                                <span class="material-symbols-outlined text-[16px] ml-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Complaint Card 3: Resolved (Full height) -->
+<div class="lg:col-span-4 bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+<div class="h-48 relative">
+<img alt="Broken Street Light" class="w-full h-full object-cover" data-alt="A cinematic evening shot of a modern LED street lamp post against a deep blue twilight sky in a Pakistani park. The lamp is brightly lit, casting a warm white glow on the surrounding green foliage. The aesthetic is clean, peaceful, and indicates a well-maintained public infrastructure, emphasizing safety and digital progress in city planning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZWz6LlVNsfK1KoHKPvJHANlhN11bXqIHzFc6vc4X43RdOHRXz3RK3qFGT8cVKOz95rs2X6VKRg7vTfgTCuQakzS3m7TuRySVX-33r_1diKe8kpF1vnZO_2r_RzWi1mtUy4q0lWHpHWVpe-LxXPpDw_kCnSNSBqmanPEiYbDWeuoWDv0kPz1zIfXxlH48pYb2fFySHaAAXQs3DEUHxdNTOdz0DKramd2tfGFYyuyMMNWUL1pWaFduP-yW5MwiFXDN4cB8rrioiruB6"/>
+</div>
+<div class="p-md flex-1">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-caption font-bold text-outline uppercase tracking-wider">#SC-0988</span>
+<span class="text-caption text-outline">Sep 28, 2023</span>
+</div>
+<h3 class="text-body-md font-bold text-emerald-900 mb-xs">Broken Street Light</h3>
+<p class="text-caption text-on-surface-variant mb-md line-clamp-2">The main street lamp near the park entrance is flickering and dim, creating a safety concern for evening walkers.</p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-gray-100">
+<div class="flex items-center bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-[12px] font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Resolved
+                            </div>
+<button class="text-primary text-label-md hover:underline flex items-center">
+                                View Details
+                                <span class="material-symbols-outlined text-[16px] ml-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Featured / Wide Row Item -->
+<div class="lg:col-span-8 bg-white border border-gray-200 rounded-xl p-lg flex flex-col md:flex-row gap-lg items-center hover:shadow-md transition-shadow">
+<div class="md:w-1/3 w-full">
+<div class="bg-surface-container rounded-lg p-md text-center">
+<span class="material-symbols-outlined text-4xl text-secondary mb-sm" data-icon="campaign" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<p class="text-label-md text-emerald-900">New Civic Initiative</p>
+<p class="text-caption text-outline">Clean Green City 2024</p>
+</div>
+</div>
+<div class="md:w-2/3">
+<h3 class="text-h3 text-emerald-900 mb-xs">Have a suggestion for your neighborhood?</h3>
+<p class="text-body-md text-on-surface-variant mb-md">Our new 'City Voices' feature allows you to submit improvement ideas beyond just complaints. Help us shape the future of our urban spaces.</p>
+<button class="bg-secondary text-white px-6 py-2 rounded-lg text-label-md hover:bg-emerald-900 transition-colors">
+                            Submit Suggestion
+                        </button>
+</div>
+</div>
+<!-- Complaint Card 4 -->
+<div class="lg:col-span-4 bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+<div class="h-48 relative">
+<img alt="Water leakage" class="w-full h-full object-cover" data-alt="A clear, professional photograph showing a water main leak on a residential street. A steady stream of clean water flows from a crack in the pavement into a nearby drain. The lighting is natural and bright, emphasizing the urgency of the repair within a clean, municipal maintenance context. The colors are dominated by grey asphalt and blue reflections in the water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOkfdv1zuLaHQkWLyzxWoI9sfc7Q_xsIHhGg6Xol250Im8AKZ-w_ICXZZQ4iFkXKsJ64gizcFqzKWKnKWYj2PlRJOpry27_Cg3BdPIlkbT_7IOh_62QAAJQVMHf38lahXFI6ws_85bzbxYeZPoNRvvh6N7oUXNlBflyZVI7p5tPb7-XWFbouAMDLfNmfyAANZtv4LkpeY6-n57UIG48sWl_TQapaHMv2I3Beg2-Lq2u7HreHC36QE-zwPHjp_HEN5CFh_yRXTb49x2"/>
+</div>
+<div class="p-md flex-1">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-caption font-bold text-outline uppercase tracking-wider">#SC-1031</span>
+<span class="text-caption text-outline">Oct 14, 2023</span>
+</div>
+<h3 class="text-body-md font-bold text-emerald-900 mb-xs">Water Main Leakage</h3>
+<p class="text-caption text-on-surface-variant mb-md line-clamp-2">Substantial water leakage observed at the corner of Street 5 and 7. Wasting clean water and flooding the sidewalk.</p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-gray-100">
+<div class="flex items-center bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-[12px] font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="outbox">outbox</span>
+                                Submitted
+                            </div>
+<button class="text-primary text-label-md hover:underline flex items-center">
+                                View Details
+                                <span class="material-symbols-outlined text-[16px] ml-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Contextual Trigger -->
+<div class="mt-2xl text-center py-xl bg-surface-container-low rounded-2xl border-2 border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-outline mb-md" data-icon="add_task">add_task</span>
+<h4 class="text-h3 text-emerald-900 font-semibold mb-xs">Need to report something else?</h4>
+<p class="text-body-md text-on-surface-variant mb-lg">Your reports help us make the city better for everyone.</p>
+<button class="bg-primary text-white px-lg py-3 rounded-xl font-bold text-label-md hover:opacity-90 active:scale-95 transition-all">
+                    Submit New Complaint
+                </button>
+</div>
+</div>
+</main>
+<!-- FAB Button for Mobile/Quick Action -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-all z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

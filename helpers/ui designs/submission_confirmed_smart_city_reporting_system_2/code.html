@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Complaint Submitted - Smart City Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#81db6e",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-dim": "#d9dadb",
+                        "secondary-fixed": "#b0f1ce",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#404a3b",
+                        "surface-tint": "#106e09",
+                        "outline-variant": "#bfcab7",
+                        "on-primary-fixed": "#002200",
+                        "tertiary-fixed-dim": "#ffb0cf",
+                        "tertiary-fixed": "#ffd9e5",
+                        "primary-fixed": "#9cf987",
+                        "background": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed-dim": "#94d4b3",
+                        "inverse-primary": "#81db6e",
+                        "tertiary": "#7b0d4c",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed": "#3d0023",
+                        "on-secondary-container": "#327054",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#9a2a64",
+                        "on-secondary-fixed": "#002114",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#88e274",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#0b5138",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#b0f1ce",
+                        "on-background": "#191c1d",
+                        "primary": "#004b00",
+                        "inverse-surface": "#2e3132",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary-fixed-variant": "#851753",
+                        "on-tertiary-container": "#ffb9d4",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary": "#2b694e",
+                        "surface-container": "#edeeef",
+                        "primary-container": "#006600",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline": "#707a6a",
+                        "on-primary-fixed-variant": "#005300"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base-unit": "4px",
+                        "xl": "32px",
+                        "container-max": "1280px",
+                        "3xl": "64px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Public Sans"],
+                        "h3": ["Public Sans"],
+                        "h1": ["Public Sans"],
+                        "caption": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "body-md": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #f8f9fa; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#064E35] dark:bg-emerald-950 flex flex-col py-6 border-r border-emerald-800 shadow-xl z-50">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+<img alt="State Emblem" class="w-8 h-8 rounded-full" data-alt="A professional, high-resolution emblem of the State of Pakistan, featuring detailed gold and green calligraphy. The style is formal and institutional, suitable for a government portal, with a clean white background and soft ambient lighting that emphasizes the official nature of the symbol." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXeqlxLzg8XMqjtsD2LTEvHcUqDCsr-sHmZuSNb10sl3E93UrzjgCzI-KCPxkTr7PJlH1-VyMQGa4iCDmF0PaFvWAuuQD1ljO8X4Cp_XJXOkBCOeavpd5R6j55CLYTfCDku2fJmW1jLJbRpYgUdS-3A7UPk0Z_KPfAWjL9K7urEWTjwP131knl2hwRfchy4b-vMs0JAVSwSCsF5iYWUuI4_PPiBZGuR8t83d3uHQVH3WUc6Qour62A8Ussty0l2kpo7MfnGv5gNts-"/>
+<div>
+<h1 class="text-white font-bold text-lg font-h1 leading-tight">Smart City</h1>
+<p class="text-emerald-100/70 text-caption font-caption">Citizen Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all flex items-center gap-3 font-label-md text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+                Home
+            </a>
+<a class="bg-white/10 border-l-4 border-white text-white font-semibold py-3 px-6 flex items-center gap-3 font-label-md text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Submit Complaint
+            </a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all flex items-center gap-3 font-label-md text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                My Complaints
+            </a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all flex items-center gap-3 font-label-md text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                Notifications
+            </a>
+<a class="text-emerald-100/70 hover:bg-white/5 py-3 px-6 transition-all flex items-center gap-3 font-label-md text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Profile
+            </a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="p-4 bg-white/5 rounded-xl border border-white/10">
+<p class="text-emerald-100/50 text-xs font-caption mb-2">Logged in as</p>
+<p class="text-white font-label-md text-sm truncate">Ahmed Khan</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen flex items-center justify-center p-xl">
+<div class="max-w-[1280px] w-full flex flex-col items-center">
+<!-- Success Animation Container/Illustration Area -->
+<div class="w-full max-w-3xl bg-white border border-outline-variant shadow-sm rounded-xl overflow-hidden">
+<div class="relative h-48 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+<div class="absolute inset-0 opacity-10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYmzOydLoAZEj6_xaHgVZBnTdQ9QfTM7a59-oZbGOSmy2zlg9JDzydR8wFyRBDXW33BbvN_TtsIhRSBxaEkKblfNS0R0iF6TV88FBu6Dy4uqUkIEB-agrUPvrpIJgTboStQ0eRaD2lhq8Gxm0tP3iS4eKY-uvOp5HKKpyhSsSr139kFZyoiSAng7cSHebVi4AKXDkos7vRLrxDOvRnWJmrjC7Ie6cWxgrxFdnNiUd-hoic9lKmVJKUyCxiVY9YkQ7oqFbQ40b9CVED');"></div>
+<div class="relative z-10 bg-white rounded-full p-6 shadow-xl">
+<span class="material-symbols-outlined text-primary-container text-6xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="p-xl text-center">
+<!-- Title and ID -->
+<h2 class="font-h2 text-h2 text-on-background mb-2">Your complaint has been submitted</h2>
+<p class="font-body-md text-on-surface-variant mb-xl">Complaint ID: <span class="font-bold text-on-background">#SC-82910</span></p>
+<!-- Bento-style Info Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-xl">
+<div class="p-lg bg-surface-container-low border border-outline-variant rounded-lg text-left flex items-start gap-4">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="construction">construction</span>
+</div>
+<div>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Issue Type</p>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-primary-fixed-dim/20 text-on-primary-fixed-variant border border-primary-fixed-dim/30">
+                                    Pothole Detected
+                                </span>
+</div>
+</div>
+<div class="p-lg bg-surface-container-low border border-outline-variant rounded-lg text-left flex items-start gap-4">
+<div class="bg-tertiary-fixed text-on-tertiary-fixed-variant p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Assigned Department</p>
+<p class="font-label-md text-on-background">Urban Road Maintenance</p>
+</div>
+</div><!-- Category Card -->
+<div class="p-lg bg-surface-container-low border border-outline-variant rounded-lg text-left flex items-start gap-4">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+</div>
+<div>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Category</p>
+<p class="font-label-md text-on-background">Waste Management</p>
+</div>
+</div>
+<!-- Priority Level Card -->
+<div class="p-lg bg-surface-container-low border border-outline-variant rounded-lg text-left flex items-start gap-4">
+<div class="bg-error-container text-on-error-container p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+</div>
+<div>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Priority Level</p>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-error text-on-error border border-error/30">
+            High
+        </span>
+</div>
+</div>
+</div>
+<!-- Details Area -->
+<div class="bg-surface-bright border border-dashed border-outline-variant rounded-lg p-lg mb-xl text-left">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="info">info</span>
+<p class="text-caption font-label-md text-on-surface-variant">Expected Resolution: <span class="text-on-background">3-5 Business Days</span></p>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm">
+                            Thank you for contributing to a smarter city. Our maintenance team has been notified and will begin an assessment of the reported location shortly. You will receive real-time updates via SMS and the Notifications tab.
+                        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-md justify-center">
+<button class="bg-primary-container text-on-primary text-label-md font-h3 py-4 px-xl rounded-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                            View Complaint
+                        </button>
+<button class="bg-white border border-outline text-primary text-label-md font-h3 py-4 px-xl rounded-lg hover:bg-surface-container-low transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                            Submit Another
+                        </button>
+</div>
+</div>
+</div>
+<!-- Contextual Footer -->
+<div class="mt-xl text-center max-w-2xl">
+<p class="font-caption text-on-surface-variant text-sm">
+                    In case of an immediate emergency or public safety hazard, please call the Metropolitan Emergency Helpline at <span class="font-bold">1122</span>.
+                </p>
+</div>
+</div>
+</main>
+<!-- Success Feedback Decoration -->
+<div class="fixed bottom-0 right-0 p-3xl opacity-10 pointer-events-none overflow-hidden select-none">
+<span class="material-symbols-outlined text-[300px] text-primary" data-icon="task_alt">task_alt</span>
+</div>
+</body></html>
