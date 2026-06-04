@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors */
+  --color-brand-dark:    #042C53;
+  --color-brand:         #185FA5;
+  --color-brand-accent:  #378ADD;
+  --color-brand-light:   #B5D4F4;
+  --color-brand-surface: #E6F1FB;
+
+  /* Status colors */
+  --color-danger:  #E24B4A;
+  --color-success: #639922;
+  --color-warning: #EF9F27;
+
+  /* Border radius */
+  --radius-DEFAULT: 6px;
+
+  /* Font */
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
