@@ -89,38 +89,36 @@ export default function OTPVerification() {
 
     const user = data.user
 
-    // Check if profile exists
-    const { data: existingProfile } = await supabase
+    // Use upsert instead of checking + inserting
+    // This handles both new and existing users safely
+    const { error: upsertError } = await supabase
       .from('profiles')
-      .select('id, role')
-      .eq('id', user.id)
-      .maybeSingle()
+      .upsert({
+        id: user.id,
+        role: 'citizen',
+      }, {
+        onConflict: 'id',
+        ignoreDuplicates: true,  // if profile exists, do nothing
+      })
 
-    if (!existingProfile) {
-      // New user — create profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: user.id,
-          email: user.email,
-          role: 'citizen',
-        })
-
-      if (profileError) {
-        setError(profileError.message)
-        setLoading(false)
-        return
-      }
-
-      navigate('/c/dashboard')
-    } else {
-      // Returning user — route by role
-      const role = existingProfile.role
-      if (role === 'admin') navigate('/a/dashboard')
-      else if (role === 'officer') navigate('/o/dashboard')
-      else if (role === 'worker') navigate('/w/dashboard')
-      else navigate('/c/dashboard')
+    if (upsertError) {
+      setError(upsertError.message)
+      setLoading(false)
+      return
     }
+
+    // Now fetch the role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const role = profile?.role
+    if (role === 'admin') navigate('/a/dashboard')
+    else if (role === 'officer') navigate('/o/dashboard')
+    else if (role === 'worker') navigate('/w/dashboard')
+    else navigate('/c/dashboard')
 
     setLoading(false)
   }

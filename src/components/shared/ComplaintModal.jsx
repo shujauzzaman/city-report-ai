@@ -14,7 +14,7 @@ const statusStyles = {
   resolved: 'bg-emerald-100 text-emerald-700',
 }
 
-export default function ComplaintModal({ complaint, onClose }) {
+export default function ComplaintModal({ complaint, onClose, actions }) {
   const handleBackdrop = (e) => {
     if (e.target === e.currentTarget) onClose()
   }
@@ -124,7 +124,8 @@ export default function ComplaintModal({ complaint, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-gray-100">
+        <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-2">
+          {actions && actions}
           <button
             onClick={onClose}
             className="w-full border border-gray-300 text-gray-500 text-sm font-medium py-2 rounded-md hover:bg-gray-50 transition-colors"
