@@ -5,7 +5,10 @@ import Authentication from './pages/auth/Authentication'
 import OTPVerification from './pages/auth/OTPVerification'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 // Admin routes
+import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminUsers from './pages/admin/AdminUsers'
+import DepartmentDetail from './pages/admin/DepartmentDetail'
 // citizen routes
 import CitizenLayout from './pages/citizen/CitizenLayout'
 import CitizenDashboard from './pages/citizen/CitizenDashboard'
@@ -26,11 +29,18 @@ function App () {
       <Route path='/' element={<Home />} />
       <Route path='/authenticate' element={<Authentication />} />
       <Route path="/verify-otp" element={<OTPVerification />} />
-      <Route path="/a/dashboard" element={
+
+      {/* admin */}
+      <Route path="/a" element={
         <ProtectedRoute allowedRoles={['admin']}>
-          <AdminDashboard />
+          <AdminLayout />
         </ProtectedRoute>
-      } />
+      }>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="department/:name" element={<DepartmentDetail />} />
+        <Route path="users" element={<AdminUsers />} />
+      </Route>
+
       {/* citizen */}
       <Route path="/c" element={
         <ProtectedRoute allowedRoles={['citizen']}>
@@ -41,6 +51,7 @@ function App () {
         <Route path="submit" element={<SubmitComplaint />} />
         <Route path="complaints" element={<MyComplaints />} />
       </Route>
+
       {/* officer */}
       <Route path="/o" element={
         <ProtectedRoute allowedRoles={['officer']}>
@@ -50,6 +61,7 @@ function App () {
         <Route path="dashboard" element={<OfficerDashboard />} />
         <Route path="complaints" element={<OfficerComplaints />} />
       </Route>
+      
       {/* worker */}
       <Route path="/w" element={
         <ProtectedRoute allowedRoles={['worker']}>

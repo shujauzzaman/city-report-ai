@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
-import { MapPin, Calendar, AlertTriangle, Activity } from 'lucide-react'
+import { MapPin, Calendar, AlertTriangle, Activity, Search, X } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
 import AssignWorker from '../../components/officer/AssignWorker'
 
@@ -23,6 +23,7 @@ export default function OfficerComplaints() {
   const [filter, setFilter] = useState('all')
   const [selectedComplaint, setSelectedComplaint] = useState(null)
   const [department, setDepartment] = useState('')
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -47,16 +48,29 @@ export default function OfficerComplaints() {
         .eq('department', profile.department)
         .order('created_at', { ascending: false })
 
-      if (data) setComplaints(data)
+      if (data) {
+        const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
+        const sorted = [...data].sort((a, b) =>
+          (priorityOrder[a.priority] ?? 2) - (priorityOrder[b.priority] ?? 2)
+        )
+        setComplaints(sorted)
+      }
       setLoading(false)
     }
 
     fetchComplaints()
   }, [])
 
-  const filtered = filter === 'all'
-    ? complaints
-    : complaints.filter(c => c.status === filter)
+  const filtered = complaints
+  .filter(c => filter === 'all' ? true : c.status === filter)
+  .filter(c => {
+    if (!search.trim()) return true
+    const q = search.toLowerCase()
+    return (
+      c.description?.toLowerCase().includes(q) ||
+      c.address?.toLowerCase().includes(q)
+    )
+  })
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -74,6 +88,26 @@ export default function OfficerComplaints() {
         </div>
       </div>
 
+      {/* Search */}
+      <div className="relative mb-4">
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search by description or address..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand bg-white"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <X size={14} />
+          </button>
+        )}
+      </div>
+    
       {/* Filter tabs */}
       <div className="flex gap-2 mb-6">
         {['all', 'pending', 'in_progress', 'resolved'].map(tab => (

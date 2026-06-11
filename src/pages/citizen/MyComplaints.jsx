@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../../lib/supabaseClient'
-import { FilePlus, MapPin, Calendar, X, Clock, Building2 } from 'lucide-react'
+import { FilePlus, MapPin, Calendar, Search, X, AlertTriangle, Activity } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
 import useComplaints from '../../hooks/useComplaints'
 
@@ -22,27 +21,18 @@ export default function MyComplaints() {
   const { complaints, loading } = useComplaints()
   const [filter, setFilter] = useState('all')
   const [selectedComplaint, setSelectedComplaint] = useState(null)
+  const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-
-      const { data } = await supabase
-        .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at')
-        .eq('citizen_id', user.id)
-        .order('created_at', { ascending: false })
-
-      if (data) setComplaints(data)
-      setLoading(false)
-    }
-
-    fetchComplaints()
-  }, [])
-
-  const filtered = filter === 'all'
-    ? complaints
-    : complaints.filter(c => c.status === filter)
+  const filtered = complaints
+  .filter(c => filter === 'all' ? true : c.status === filter)
+  .filter(c => {
+    if (!search.trim()) return true
+    const q = search.toLowerCase()
+    return (
+      c.description?.toLowerCase().includes(q) ||
+      c.address?.toLowerCase().includes(q)
+    )
+  })
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -60,6 +50,26 @@ export default function MyComplaints() {
           <FilePlus size={15} />
           New complaint
         </Link>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-4">
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search by description or address..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand bg-white"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <X size={14} />
+          </button>
+        )}
       </div>
 
       {/* Filter tabs */}
