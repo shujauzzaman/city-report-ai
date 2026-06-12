@@ -111,7 +111,7 @@ export default function WorkerTasks() {
                 <img
                   src={task.image_url}
                   alt="Task"
-                  className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                  className="w-20 h-20 object-cover rounded-md shrink-0"
                 />
               )}
 

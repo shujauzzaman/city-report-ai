@@ -126,7 +126,7 @@ export default function WorkerDashboard() {
                   <img
                     src={task.image_url}
                     alt="Task"
-                    className="w-12 h-12 object-cover rounded-md flex-shrink-0"
+                    className="w-12 h-12 object-cover rounded-md shrink-0"
                   />
                 )}
                 <div className="flex-1 min-w-0">
