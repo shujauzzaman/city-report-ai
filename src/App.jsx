@@ -9,6 +9,7 @@ import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminUsers from './pages/admin/AdminUsers'
 import DepartmentDetail from './pages/admin/DepartmentDetail'
+import AdminUsersList from './pages/admin/AdminUsersList'
 // citizen routes
 import CitizenLayout from './pages/citizen/CitizenLayout'
 import CitizenDashboard from './pages/citizen/CitizenDashboard'
@@ -39,6 +40,7 @@ function App () {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="department/:name" element={<DepartmentDetail />} />
         <Route path="users" element={<AdminUsers />} />
+        <Route path="/a/users/:role" element={<AdminUsersList />} />
       </Route>
 
       {/* citizen */}

@@ -122,11 +122,18 @@ export default function SubmitComplaint() {
       return
     }
 
+    await supabase
+    .from('notifications')
+    .insert({
+      user_id: user.id,
+      message: 'Your complaint has been submitted successfully and is now under review.',
+    })
+
     navigate('/c/complaints')
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
 
       {/* Header */}
       <div className="mb-8">

@@ -65,7 +65,7 @@ export default function OfficerDashboard() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-xl font-medium text-brand-dark">Officer Dashboard</h1>

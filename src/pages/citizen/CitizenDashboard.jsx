@@ -23,7 +23,7 @@ export default function CitizenDashboard() {
   const [selectedComplaint, setSelectedComplaint] = useState(null)
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-xl font-medium text-brand-dark">Dashboard</h1>

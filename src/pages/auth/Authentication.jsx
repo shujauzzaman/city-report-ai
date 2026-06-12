@@ -15,6 +15,19 @@ export default function Authentication() {
     setError('')
     setLoading(true)
 
+    // Check if account exists and is disabled
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_disabled')
+      .eq('email', email.trim().toLowerCase())
+      .maybeSingle()
+
+    if (profile?.is_disabled) {
+      setError('Your account has been disabled. Please contact the administrator.')
+      setLoading(false)
+      return
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {

@@ -59,7 +59,7 @@ export default function WorkerDashboard() {
   }, [])
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div>
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-xl font-medium text-brand-dark">Worker Dashboard</h1>
