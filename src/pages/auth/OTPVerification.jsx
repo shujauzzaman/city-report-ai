@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import BackButton from '../../components/shared/BackButton'
-import Authentication from '../auth/Authentication'
 
 export default function OTPVerification() {
   const location = useLocation()
@@ -87,38 +86,27 @@ export default function OTPVerification() {
       return
     }
 
-    const user = data.user
-
-    // Use upsert instead of checking + inserting
-    // This handles both new and existing users safely
-    const { error: upsertError } = await supabase
+    // Fetch profile — trigger already created it
+    const { data: profile } = await supabase
       .from('profiles')
-      .upsert({
-        id: user.id,
-        role: 'citizen',
-      }, {
-        onConflict: 'id',
-        ignoreDuplicates: true,  // if profile exists, do nothing
-      })
+      .select('role, is_disabled')
+      .eq('id', data.user.id)
+      .single()
 
-    if (upsertError) {
-      setError(upsertError.message)
+    // Block disabled accounts
+    if (profile?.is_disabled) {
+      await supabase.auth.signOut()
+      setError('Your account has been disabled. Please contact the administrator.')
       setLoading(false)
       return
     }
 
-    // Now fetch the role
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
+    // Redirect based on role
     const role = profile?.role
-    if (role === 'admin') navigate('/a/dashboard')
+    if (role === 'admin')        navigate('/a/dashboard')
     else if (role === 'officer') navigate('/o/dashboard')
-    else if (role === 'worker') navigate('/w/dashboard')
-    else navigate('/c/dashboard')
+    else if (role === 'worker')  navigate('/w/dashboard')
+    else                         navigate('/c/dashboard')
 
     setLoading(false)
   }
