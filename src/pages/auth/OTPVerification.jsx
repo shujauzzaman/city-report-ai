@@ -86,14 +86,40 @@ export default function OTPVerification() {
       return
     }
 
-    // Fetch profile — trigger already created it
+    const user = data.user
+
+    // Check if profile already exists (returning user)
+    const { data: existingProfile } = await supabase
+      .from('profiles')
+      .select('role, is_disabled')
+      .eq('id', user.id)
+      .single()
+
+    if (!existingProfile) {
+      // New user — create profile
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert({
+          id:          user.id,
+          email:       user.email,
+          role:        'citizen',
+          is_disabled: false,
+        })
+
+      if (insertError) {
+        setError(insertError.message)
+        setLoading(false)
+        return
+      }
+    }
+
+    // Fetch final profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('role, is_disabled')
-      .eq('id', data.user.id)
+      .eq('id', user.id)
       .single()
 
-    // Block disabled accounts
     if (profile?.is_disabled) {
       await supabase.auth.signOut()
       setError('Your account has been disabled. Please contact the administrator.')
@@ -101,7 +127,6 @@ export default function OTPVerification() {
       return
     }
 
-    // Redirect based on role
     const role = profile?.role
     if (role === 'admin')        navigate('/a/dashboard')
     else if (role === 'officer') navigate('/o/dashboard')
