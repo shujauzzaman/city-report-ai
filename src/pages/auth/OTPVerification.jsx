@@ -101,7 +101,7 @@ export default function OTPVerification() {
         .from('profiles')
         .insert({
           id:          user.id,
-          email:       user.email,
+          email:       email,
           role:        'citizen',
           is_disabled: false,
         })
