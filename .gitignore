@@ -23,3 +23,19 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Frontend
+frontend/node_modules/
+frontend/.env
+frontend/dist/
+
+# Backend build output
+backend/**/bin/
+backend/**/obj/
+
+# AI — not ready to push yet
+ai/
+
+# OS
+.DS_Store
+Thumbs.db
