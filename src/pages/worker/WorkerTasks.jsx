@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
-import { MapPin, Calendar, AlertTriangle, Activity, CheckCircle } from 'lucide-react'
+import { MapPin, Calendar, AlertTriangle, Activity, CheckCircle, ImagePlus, X, FileText } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
 
 const priorityStyles = {
@@ -16,12 +16,192 @@ const statusStyles = {
   resolved: 'bg-emerald-100 text-emerald-700',
 }
 
+// Resolution proof modal
+function ResolveModal({ task, onClose, onResolved }) {
+  const [image, setImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
+  const [notes, setNotes] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleBackdrop = (e) => {
+    if (e.target === e.currentTarget) onClose()
+  }
+
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onClose])
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setImage(file)
+    setImagePreview(URL.createObjectURL(file))
+  }
+
+  const handleSubmit = async () => {
+    if (!image) {
+      setError('Please upload a resolution proof image.')
+      return
+    }
+
+    setError('')
+    setLoading(true)
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // Upload proof image
+    const fileExt = image.name.split('.').pop()
+    const fileName = `resolution/${task.id}/${Date.now()}.${fileExt}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('complaint-images')
+      .upload(fileName, image)
+
+    if (uploadError) {
+      setError(uploadError.message)
+      setLoading(false)
+      return
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('complaint-images')
+      .getPublicUrl(fileName)
+
+    // Update complaint
+    const { error: updateError } = await supabase
+      .from('complaints')
+      .update({
+        status: 'resolved',
+        resolution_proof_url: publicUrl,
+        resolution_notes: notes.trim() || null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', task.id)
+
+    setLoading(false)
+
+    if (updateError) {
+      setError(updateError.message)
+      return
+    }
+
+    onResolved(task.id, publicUrl, notes.trim())
+    onClose()
+  }
+
+  return (
+    <div
+      onClick={handleBackdrop}
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center px-4"
+    >
+      <div className="bg-white rounded-md w-full max-w-md scrollbar-hide overflow-y-auto max-h-[90vh]">
+
+        {/* Header */}
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h2 className="text-sm font-medium text-brand-dark">Upload Resolution Proof</h2>
+          <p className="text-xs text-gray-400 mt-0.5">Provide evidence that the issue has been resolved</p>
+        </div>
+
+        <div className="px-5 py-5 space-y-4">
+
+          {/* Proof image */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+              <ImagePlus size={14} className="text-brand" />
+              Resolution Proof Image <span className="text-danger">*</span>
+            </label>
+
+            {!imagePreview ? (
+              <div
+                onClick={() => document.getElementById('proof-input').click()}
+                className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-brand transition-colors cursor-pointer"
+              >
+                <ImagePlus size={24} className="text-gray-300 mx-auto mb-2" />
+                <p className="text-sm text-gray-400">
+                  Click to upload proof image
+                </p>
+                <input
+                  id="proof-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </div>
+            ) : (
+              <div className="relative">
+                <img
+                  src={imagePreview}
+                  alt="Proof"
+                  className="w-full h-48 object-cover rounded-md"
+                />
+                <button
+                  onClick={() => { setImage(null); setImagePreview(null) }}
+                  className="absolute top-2 right-2 flex items-center gap-1 bg-white border border-gray-200 text-gray-500 hover:text-danger text-xs px-2 py-1 rounded-md"
+                >
+                  <X size={12} />
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+              <FileText size={14} className="text-brand" />
+              Resolution Notes <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <textarea
+              rows={3}
+              placeholder="Describe what was done to resolve the issue..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand resize-none"
+            />
+          </div>
+
+          {/* Error */}
+          {error && (
+            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              {error}
+            </p>
+          )}
+
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-4 border-t border-gray-100 flex gap-2">
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="flex-1 flex items-center justify-center gap-2 bg-success hover:opacity-90 text-white text-sm font-medium py-2 rounded-md transition-opacity disabled:opacity-60"
+          >
+            <CheckCircle size={14} />
+            {loading ? 'Submitting...' : 'Submit Resolution'}
+          </button>
+          <button
+            onClick={onClose}
+            className="flex-1 border border-gray-300 text-gray-500 text-sm font-medium py-2 rounded-md hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 export default function WorkerTasks() {
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [selectedComplaint, setSelectedComplaint] = useState(null)
-  const [updating, setUpdating] = useState(null)
+  const [resolvingTask, setResolvingTask] = useState(null)
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -29,7 +209,7 @@ export default function WorkerTasks() {
 
       const { data } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at')
+        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, resolution_proof_url, resolution_notes')
         .eq('assigned_worker_id', user.id)
         .order('created_at', { ascending: false })
 
@@ -40,23 +220,13 @@ export default function WorkerTasks() {
     fetchTasks()
   }, [])
 
-  // E4-US5 — Update task status
-  const handleMarkResolved = async (e, taskId) => {
-    e.stopPropagation() // prevent modal from opening
-    setUpdating(taskId)
-
-    const { error } = await supabase
-      .from('complaints')
-      .update({ status: 'resolved' })
-      .eq('id', taskId)
-
-    if (!error) {
-      setTasks(prev =>
-        prev.map(t => t.id === taskId ? { ...t, status: 'resolved' } : t)
+  const handleResolved = (taskId, proofUrl, notes) => {
+    setTasks(prev =>
+      prev.map(t => t.id === taskId
+        ? { ...t, status: 'resolved', resolution_proof_url: proofUrl, resolution_notes: notes }
+        : t
       )
-    }
-
-    setUpdating(null)
+    )
   }
 
   const filtered = filter === 'all'
@@ -64,7 +234,7 @@ export default function WorkerTasks() {
     : tasks.filter(t => t.status === filter)
 
   return (
-    <div>
+    <div className="max-w-2xl mx-auto">
 
       {/* Header */}
       <div className="mb-8">
@@ -111,7 +281,7 @@ export default function WorkerTasks() {
                 <img
                   src={task.image_url}
                   alt="Task"
-                  className="w-20 h-20 object-cover rounded-md shrink-0"
+                  className="w-20 h-20 object-cover rounded-md flex-shrink-0"
                 />
               )}
 
@@ -146,16 +316,23 @@ export default function WorkerTasks() {
                     </div>
                   </div>
 
-                  {/* E4-US5 — Mark as resolved button */}
+                  {/* Mark resolved button */}
                   {task.status !== 'resolved' && (
                     <button
-                      onClick={(e) => handleMarkResolved(e, task.id)}
-                      disabled={updating === task.id}
-                      className="flex items-center gap-1.5 text-xs font-medium text-success border border-success px-2 py-1 rounded-md hover:bg-emerald-50 transition-colors disabled:opacity-60"
+                      onClick={(e) => { e.stopPropagation(); setResolvingTask(task) }}
+                      className="flex items-center gap-1.5 text-xs font-medium text-success border border-success px-2 py-1 rounded-md hover:bg-emerald-50 transition-colors"
                     >
                       <CheckCircle size={12} />
-                      {updating === task.id ? 'Updating...' : 'Mark resolved'}
+                      Mark resolved
                     </button>
+                  )}
+
+                  {/* Resolved indicator */}
+                  {task.status === 'resolved' && task.resolution_proof_url && (
+                    <span className="text-xs text-success flex items-center gap-1">
+                      <CheckCircle size={12} />
+                      Proof uploaded
+                    </span>
                   )}
                 </div>
               </div>
@@ -164,12 +341,23 @@ export default function WorkerTasks() {
         </div>
       )}
 
+      {/* Complaint detail modal */}
       {selectedComplaint && (
         <ComplaintModal
           complaint={selectedComplaint}
           onClose={() => setSelectedComplaint(null)}
         />
       )}
+
+      {/* Resolve modal */}
+      {resolvingTask && (
+        <ResolveModal
+          task={resolvingTask}
+          onClose={() => setResolvingTask(null)}
+          onResolved={handleResolved}
+        />
+      )}
+
     </div>
   )
 }

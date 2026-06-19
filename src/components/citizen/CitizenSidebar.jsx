@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, FilePlus, FileText, LogOut } from 'lucide-react'
-import useLogout from '../../hooks/useLogout'
+import { LayoutDashboard, FilePlus, FileText } from 'lucide-react'
+import SidebarUserMenu from '../shared/SidebarUserMenu'
 
 const navItems = [
   { label: 'Dashboard', path: '/c/dashboard', icon: LayoutDashboard },
@@ -9,7 +9,6 @@ const navItems = [
 ]
 
 export default function CitizenSidebar() {
-  const logout = useLogout()
 
   return (
     <aside className="w-56 bg-brand-dark flex flex-col fixed h-full">
@@ -41,16 +40,7 @@ export default function CitizenSidebar() {
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="px-3 py-4 border-t border-[#185FA5]">
-        <button
-          onClick={logout}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-[#85B7EB] hover:text-white hover:bg-danger transition-colors"
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
-      </div>
+      <SidebarUserMenu profilePath="/c/profile" />
 
     </aside>
   )

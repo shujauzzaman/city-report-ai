@@ -123,6 +123,36 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
 
         </div>
 
+        {/* Resolution proof — show if resolved */}
+        {complaint.resolution_proof_url && (
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">Resolution Evidence</p>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <p className="text-xs text-gray-400 text-center mb-1">Before</p>
+                <img
+                  src={complaint.image_url}
+                  alt="Before"
+                  className="w-full h-32 object-cover rounded-md"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 text-center mb-1">After</p>
+                <img
+                  src={complaint.resolution_proof_url}
+                  alt="After"
+                  className="w-full h-32 object-cover rounded-md"
+                />
+              </div>
+    </div>
+    {complaint.resolution_notes && (
+      <p className="text-xs text-gray-500 mt-2 bg-gray-50 rounded-md px-3 py-2">
+        {complaint.resolution_notes}
+      </p>
+    )}
+  </div>
+)}
+
         {/* Footer */}
         <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-2">
           {actions && actions}

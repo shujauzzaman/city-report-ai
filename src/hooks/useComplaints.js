@@ -11,7 +11,7 @@ export default function useComplaints() {
 
       const { data } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at')
+        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, resolution_proof_url, resolution_notes')
         .eq('citizen_id', user.id)
         .order('created_at', { ascending: false })
 

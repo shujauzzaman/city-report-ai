@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Authentication from './pages/auth/Authentication'
 import OTPVerification from './pages/auth/OTPVerification'
 import ProtectedRoute from './components/shared/ProtectedRoute'
+import ProfilePage from './pages/shared/ProfilePage'
+
 // Admin routes
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -41,6 +43,7 @@ function App () {
         <Route path="department/:name" element={<DepartmentDetail />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="/a/users/:role" element={<AdminUsersList />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       {/* citizen */}
@@ -52,6 +55,7 @@ function App () {
         <Route path="dashboard" element={<CitizenDashboard />} />
         <Route path="submit" element={<SubmitComplaint />} />
         <Route path="complaints" element={<MyComplaints />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       {/* officer */}
@@ -62,6 +66,7 @@ function App () {
       }>
         <Route path="dashboard" element={<OfficerDashboard />} />
         <Route path="complaints" element={<OfficerComplaints />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
       
       {/* worker */}
@@ -72,6 +77,7 @@ function App () {
       }>
         <Route path="dashboard" element={<WorkerDashboard />} />
         <Route path="tasks" element={<WorkerTasks />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   )

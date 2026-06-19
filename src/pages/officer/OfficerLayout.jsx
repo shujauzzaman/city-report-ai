@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import OfficerSidebar from '../officer/OfficerSidebar'
+import OfficerSidebar from '../../components/officer/OfficerSidebar'
 import NotificationBell from '../../components/shared/NotificationBell'
   
 

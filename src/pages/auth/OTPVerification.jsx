@@ -101,7 +101,6 @@ export default function OTPVerification() {
         .from('profiles')
         .insert({
           id:          user.id,
-          email:       email,
           role:        'citizen',
           is_disabled: false,
         })
@@ -128,10 +127,18 @@ export default function OTPVerification() {
     }
 
     const role = profile?.role
-    if (role === 'admin')        navigate('/a/dashboard')
-    else if (role === 'officer') navigate('/o/dashboard')
-    else if (role === 'worker')  navigate('/w/dashboard')
-    else                         navigate('/c/dashboard')
+    const completion = profile?.profile_completion || 0
+
+    const basePath = role === 'admin' ? '/a'
+      : role === 'officer' ? '/o'
+      : role === 'worker' ? '/w'
+      : '/c'
+
+    if (completion === 0) {
+      navigate(`${basePath}/profile`)
+    } else {
+      navigate(`${basePath}/dashboard`)
+    }
 
     setLoading(false)
   }

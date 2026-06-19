@@ -44,7 +44,7 @@ export default function OfficerComplaints() {
 
       const { data } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, assigned_worker_id')
+        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, assigned_worker_id, resolution_proof_url, resolution_notes')
         .eq('department', profile.department)
         .order('created_at', { ascending: false })
 
