@@ -63,7 +63,7 @@ export default function SidebarUserMenu({ profilePath }) {
   return (
     <div
       ref={menuRef}
-      className="px-3 py-4 border-t border-[#185FA5] relative"
+      className="px-3 py-4 border-t border-[#1A6B33] relative"
     >
       {/* Dropdown menu */}
       {open && (
@@ -89,7 +89,7 @@ export default function SidebarUserMenu({ profilePath }) {
       {/* Trigger button */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center gap-3 px-2 py-2 rounded-md hover:bg-[#185FA5] transition-colors group"
+        className="w-full flex items-center gap-3 px-2 py-2 rounded-md hover:bg-[#1A6B33] transition-colors group"
       >
         {/* Avatar / initials */}
         <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center flex-shrink-0 text-white text-xs font-semibold">

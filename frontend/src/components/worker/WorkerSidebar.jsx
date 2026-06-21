@@ -12,9 +12,14 @@ export default function WorkerSidebar() {
   return (
     <aside className="w-56 bg-brand-dark flex flex-col fixed h-full">
 
-      <div className="px-5 py-5 border-b border-[#185FA5]">
-        <p className="text-brand-light text-xs font-medium uppercase tracking-widest">Smart City</p>
-        <p className="text-white text-sm font-medium mt-0.5">Worker Panel</p>
+      <div className="px-5 py-5 border-b border-[#1A6B33]">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Logo" className="h-12 w-auto brightness-0 invert" />
+          <div>
+            <p className="text-brand-light text-xs font-medium uppercase tracking-widest">Smart City</p>
+            <p className="text-white text-sm font-medium mt-0.5">Reporting System</p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1">
@@ -27,7 +32,7 @@ export default function WorkerSidebar() {
               `flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
                 isActive
                   ? 'bg-brand text-white'
-                  : 'text-[#85B7EB] hover:text-white hover:bg-brand'
+                  : 'text-[#A8D5B5] hover:text-white hover:bg-brand'
               }`
             }
           >

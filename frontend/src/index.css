@@ -1,21 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors */
-  --color-brand-dark:    #042C53;
-  --color-brand:         #185FA5;
-  --color-brand-accent:  #378ADD;
-  --color-brand-light:   #B5D4F4;
-  --color-brand-surface: #E6F1FB;
+  --color-brand-dark:    #0A3D1F;
+  --color-brand:         #1A6B33;
+  --color-brand-accent:  #2E9E50;
+  --color-brand-light:   #A8D5B5;
+  --color-brand-surface: #EBF5EE;
 
-  /* Status colors */
-  --color-danger:  #E24B4A;
-  --color-success: #639922;
-  --color-warning: #EF9F27;
+  --color-danger:        #E24B4A;
+  --color-success:       #2E9E50;
+  --color-warning:       #EF9F27;
 
-  /* Border radius */
-  --radius-DEFAULT: 6px;
+  --font-sans:           'Inter', system-ui, sans-serif;
+}
 
-  /* Font */
-  --font-sans: 'Inter', system-ui, sans-serif;
+@layer components {
+
+  /* Base card */
+  .card {
+    @apply bg-white border border-gray-200 rounded-md;
+  }
+
+  /* Card with hover lift */
+  .card-hover {
+    @apply bg-white border border-gray-200 rounded-md hover:shadow-md hover:-translate-y-0.5 transition-all duration-200;
+  }
+
+  /* Card with clickable border highlight */
+  .card-clickable {
+    @apply bg-white border border-gray-200 rounded-md cursor-pointer hover:border-brand hover:shadow-sm transition-all duration-200;
+  }
+
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
