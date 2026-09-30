@@ -39,7 +39,7 @@ export default function WorkerDashboard() {
 
       const { data: tasks } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, image_url, department, latitude, longitude, created_at')
+        .select('id, description, status, priority, address, image_url, department, latitude, longitude, created_at, resolution_proof_url, resolution_notes, issue_type, hazard_level, detection_confidence, box_x1, box_y1, box_x2, box_y2')
         .eq('assigned_worker_id', user.id)
         .order('created_at', { ascending: false })
 

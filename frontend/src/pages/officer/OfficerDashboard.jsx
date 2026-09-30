@@ -32,7 +32,7 @@ export default function OfficerDashboard() {
       // Fetch complaints for this department
       const { data: complaints } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, image_url, created_at')
+        .select('id, description, status, priority, address, image_url, created_at, resolution_proof_url, resolution_notes, issue_type, hazard_level, detection_confidence, box_x1, box_y1, box_x2, box_y2')
         .eq('department', profile.department)
         .order('created_at', { ascending: false })
 

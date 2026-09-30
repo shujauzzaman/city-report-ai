@@ -209,7 +209,7 @@ export default function WorkerTasks() {
 
       const { data } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, resolution_proof_url, resolution_notes')
+        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, resolution_proof_url, resolution_notes, issue_type, hazard_level, detection_confidence, box_x1, box_y1, box_x2, box_y2')
         .eq('assigned_worker_id', user.id)
         .order('created_at', { ascending: false })
 

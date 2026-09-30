@@ -15,6 +15,7 @@ export default function SubmitComplaint() {
   const [locationLoading, setLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [analyzing, setAnalyzing] = useState(false)
   const [error, setError] = useState('')
 
   const handleImageChange = (e) => {
@@ -73,6 +74,47 @@ export default function SubmitComplaint() {
     )
   }
 
+  // E2-US5: send the uploaded image to the AI backend for detection.
+  // If this fails for any reason (backend down, network issue), we fall back
+  // to safe defaults rather than blocking complaint submission entirely.
+  const analyzeImage = async (imageUrl) => {
+    setAnalyzing(true)
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageUrl, complaintId: '' }),
+      })
+
+      if (!res.ok) throw new Error('AI analysis request failed')
+
+      const result = await res.json()
+
+      return {
+        issueType: result.issueType || 'unknown',
+        department: result.department || 'Infrastructure',
+        priority: result.priority || 'medium',
+        hazardLevel: result.hazardLevel || 'Medium',
+        confidence: result.confidence ?? 0,
+        boxX1: result.boxX1 ?? null,
+        boxY1: result.boxY1 ?? null,
+        boxX2: result.boxX2 ?? null,
+        boxY2: result.boxY2 ?? null,
+      }
+    } catch (err) {
+      console.error('AI analysis failed, using defaults:', err)
+      return {
+        issueType: 'unknown',
+        department: 'Infrastructure',
+        priority: 'medium',
+        hazardLevel: 'Medium',
+        confidence: 0,
+      }
+    } finally {
+      setAnalyzing(false)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -102,6 +144,9 @@ export default function SubmitComplaint() {
       .from('complaint-images')
       .getPublicUrl(fileName)
 
+    // E2-US5 / E2-US6: send image to AI, receive detection result
+    const analysis = await analyzeImage(publicUrl)
+
     const { error: insertError } = await supabase
       .from('complaints')
       .insert({
@@ -112,8 +157,15 @@ export default function SubmitComplaint() {
         longitude,
         address,
         status: 'pending',
-        priority: 'medium',
-        department: 'Infrastructure',
+        priority: analysis.priority,
+        department: analysis.department,
+        issue_type: analysis.issueType,
+        hazard_level: analysis.hazardLevel,
+        detection_confidence: analysis.confidence,
+        box_x1: analysis.boxX1,
+        box_y1: analysis.boxY1,
+        box_x2: analysis.boxX2,
+        box_y2: analysis.boxY2,
       })
 
     setLoading(false)
@@ -263,7 +315,7 @@ export default function SubmitComplaint() {
             className="flex items-center gap-2 bg-brand hover:bg-brand-accent text-white text-sm font-medium px-6 py-2 rounded-md transition-colors disabled:opacity-60"
           >
             <Send size={14} />
-            {loading ? 'Submitting...' : 'Submit Complaint'}
+            {analyzing ? 'Analyzing image...' : loading ? 'Submitting...' : 'Submit Complaint'}
           </button>
           <button
             type="button"

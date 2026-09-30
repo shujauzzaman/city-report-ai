@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 });
 
 // Register services
-builder.Services.AddScoped<IAnalysisService, AnalysisService>();
+builder.Services.AddSingleton<IAnalysisService, AnalysisService>();
 builder.Services.AddScoped<IDuplicateService, DuplicateService>();
 builder.Services.AddScoped<IPriorityService, PriorityService>();
 
