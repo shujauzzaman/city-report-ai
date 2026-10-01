@@ -1,16 +1,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY SmartCity.API/SmartCity.API.csproj SmartCity.API/
-RUN dotnet restore "SmartCity.API/SmartCity.API.csproj"
+COPY ["SmartCity.API.csproj", "./"]
+RUN dotnet restore "SmartCity.API.csproj"
 
-COPY SmartCity.API/ SmartCity.API/
-WORKDIR /src/SmartCity.API
-RUN dotnet publish "SmartCity.API.csproj" -c Release -o /app/publish --no-restore
+COPY . .
+RUN dotnet publish "SmartCity.API.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
-
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:10000
