@@ -32,7 +32,6 @@ frontend/dist/
 # Backend build output
 backend/**/bin/
 backend/**/obj/
-backend/**/sixlabors.lic
 
 # AI — not ready to push yet
 ai/
