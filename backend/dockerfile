@@ -9,11 +9,13 @@ COPY . .
 
 WORKDIR "/src/SmartCity.API"
 
+ARG SIXLABORS_LICENSE_KEY
+
 RUN dotnet publish "SmartCity.API.csproj" \
     -c Release \
     -o /app/publish \
-    /p:UseAppHost=false
-
+    /p:UseAppHost=false \
+    /p:SixLaborsLicenseKey="$SIXLABORS_LICENSE_KEY"
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
