@@ -2,21 +2,25 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 
+# Copy project file
 COPY ["SmartCity.API/SmartCity.API.csproj", "SmartCity.API/"]
+
+# Restore dependencies
 RUN dotnet restore "SmartCity.API/SmartCity.API.csproj"
 
+# Copy the entire backend
 COPY . .
 
-WORKDIR "/src/SmartCity.API"
+WORKDIR /src/SmartCity.API
 
-ARG SIXLABORS_LICENSE_KEY
-
+# Publish
 RUN dotnet publish "SmartCity.API.csproj" \
     -c Release \
     -o /app/publish \
     /p:UseAppHost=false \
-    /p:SixLaborsLicenseKey="$SIXLABORS_LICENSE_KEY"
+    /p:SixLaborsLicenseFile="/src/SmartCity.API/sixlabors.lic"
 
+# Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 WORKDIR /app
