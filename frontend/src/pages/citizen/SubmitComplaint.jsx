@@ -115,27 +115,6 @@ export default function SubmitComplaint() {
     }
   }
 
-  const checkDuplicate = async (issueType, department, lat, lng) => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints/duplicate-check`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          complaintId: crypto.randomUUID(),
-          issueType,
-          latitude: lat,
-          longitude: lng,
-          department,
-        }),
-      })
-      if (!res.ok) throw new Error('Duplicate check failed')
-      return await res.json()
-    } catch (err) {
-      console.error('Duplicate check failed, proceeding as non-duplicate:', err)
-      return { isDuplicate: false, originalComplaintId: null, duplicateCount: 0 }
-    }
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -168,9 +147,6 @@ export default function SubmitComplaint() {
     // E2-US5 / E2-US6: send image to AI, receive detection result
     const analysis = await analyzeImage(publicUrl)
 
-    // E7-US1: check for duplicates before finalizing the complaint
-    const dupCheck = await checkDuplicate(analysis.issueType, analysis.department, latitude, longitude)
-
     const { error: insertError } = await supabase
       .from('complaints')
       .insert({
@@ -190,7 +166,6 @@ export default function SubmitComplaint() {
         box_y1: analysis.boxY1,
         box_x2: analysis.boxX2,
         box_y2: analysis.boxY2,
-        parent_complaint_id: dupCheck.isDuplicate ? dupCheck.originalComplaintId : null,
       })
 
     setLoading(false)
@@ -200,12 +175,11 @@ export default function SubmitComplaint() {
       return
     }
 
-    // E7-US4: notify the citizen if this was a duplicate, otherwise the normal confirmation
-    await supabase.from('notifications').insert({
+    await supabase
+    .from('notifications')
+    .insert({
       user_id: user.id,
-      message: dupCheck.isDuplicate
-        ? 'This issue has already been reported by another citizen and is being handled.'
-        : 'Your complaint has been submitted successfully and is now under review.',
+      message: 'Your complaint has been submitted successfully and is now under review.',
     })
 
     navigate('/c/complaints')
