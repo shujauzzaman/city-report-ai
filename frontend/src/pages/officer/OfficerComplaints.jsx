@@ -25,6 +25,51 @@ export default function OfficerComplaints() {
   const [department, setDepartment] = useState('')
   const [search, setSearch] = useState('')
 
+  // E5-US2: check each active complaint's age and escalate priority if it's been pending too long
+  const checkTimeBasedEscalation = async (complaintsList) => {
+    const updated = [...complaintsList]
+    let anyChanged = false
+
+    for (let i = 0; i < updated.length; i++) {
+      const c = updated[i]
+      if (c.status === 'resolved') continue
+
+      const createdDate = new Date(c.created_at + 'Z')
+      const daysOld = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24))
+
+      if (daysOld < 7) continue // below the escalation threshold, skip the call entirely
+
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints/${c.id}/priority`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            duplicateCount: c.duplicate_count || 0,
+            daysOld,
+            currentPriority: c.priority,
+          }),
+        })
+        if (!res.ok) continue
+
+        const result = await res.json()
+
+        if (result.newPriority && result.newPriority !== c.priority) {
+          await supabase
+            .from('complaints')
+            .update({ priority: result.newPriority })
+            .eq('id', c.id)
+
+          updated[i] = { ...c, priority: result.newPriority }
+          anyChanged = true
+        }
+      } catch (err) {
+        console.error('Priority escalation check failed for complaint', c.id, err)
+      }
+    }
+
+    return anyChanged ? updated : complaintsList
+  }
+
   useEffect(() => {
     const fetchComplaints = async () => {
       const { data: { user } } = await supabase.auth.getUser()
@@ -44,13 +89,17 @@ export default function OfficerComplaints() {
 
       const { data } = await supabase
         .from('complaints')
-        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, assigned_worker_id, resolution_proof_url, resolution_notes, issue_type, hazard_level, detection_confidence, box_x1, box_y1, box_x2, box_y2')
+        .select('id, description, status, priority, address, latitude, longitude, image_url, department, created_at, assigned_worker_id, resolution_proof_url, resolution_notes, issue_type, hazard_level, detection_confidence, box_x1, box_y1, box_x2, box_y2, duplicate_count')
         .eq('department', profile.department)
         .order('created_at', { ascending: false })
 
       if (data) {
         const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
-        const sorted = [...data].sort((a, b) =>
+
+        // E5-US2: run time-based escalation check before displaying
+        const checked = await checkTimeBasedEscalation(data)
+
+        const sorted = [...checked].sort((a, b) =>
           (priorityOrder[a.priority] ?? 2) - (priorityOrder[b.priority] ?? 2)
         )
         setComplaints(sorted)
@@ -194,7 +243,6 @@ export default function OfficerComplaints() {
             <AssignWorker
               complaint={selectedComplaint}
               onAssigned={() => {
-                // Update complaint in list
                 setComplaints(prev =>
                   prev.map(c =>
                     c.id === selectedComplaint.id

@@ -8,12 +8,14 @@ namespace SmartCity.API.Services.Implementations
     public class DuplicateService : IDuplicateService
     {
         private readonly string _connectionString;
+        private readonly IPriorityService _priorityService;
         private const double DuplicateRadiusMeters = 100;
 
-        public DuplicateService(IConfiguration configuration)
+        public DuplicateService(IConfiguration configuration, IPriorityService priorityService)
         {
             _connectionString = configuration.GetConnectionString("SupabaseDb")
                 ?? throw new InvalidOperationException("SupabaseDb connection string not configured.");
+            _priorityService = priorityService;
         }
 
         public async Task<DuplicateCheckResult> CheckDuplicateAsync(DuplicateCheckRequest request)
@@ -22,7 +24,7 @@ namespace SmartCity.API.Services.Implementations
             await conn.OpenAsync();
 
             const string selectSql = @"
-                SELECT id, latitude, longitude, duplicate_count
+                SELECT id, latitude, longitude, duplicate_count, priority
                 FROM complaints
                 WHERE issue_type = @issueType
                   AND department = @department
@@ -37,6 +39,7 @@ namespace SmartCity.API.Services.Implementations
 
             string? matchedId = null;
             int matchedCount = 0;
+            string matchedPriority = "medium";
 
             await using (var reader = await selectCmd.ExecuteReaderAsync())
             {
@@ -46,6 +49,7 @@ namespace SmartCity.API.Services.Implementations
                     var candidateLat = reader.IsDBNull(1) ? (double?)null : reader.GetDouble(1);
                     var candidateLng = reader.IsDBNull(2) ? (double?)null : reader.GetDouble(2);
                     var candidateCount = reader.GetInt32(3);
+                    var candidatePriority = reader.IsDBNull(4) ? "medium" : reader.GetString(4);
 
                     if (candidateLat is null || candidateLng is null) continue;
 
@@ -55,6 +59,7 @@ namespace SmartCity.API.Services.Implementations
                     {
                         matchedId = candidateId;
                         matchedCount = candidateCount;
+                        matchedPriority = candidatePriority;
                         break;
                     }
                 }
@@ -80,6 +85,24 @@ namespace SmartCity.API.Services.Implementations
             await using var updateCmd = new NpgsqlCommand(updateSql, conn);
             updateCmd.Parameters.AddWithValue("id", matchedId);
             var newCount = (int)(await updateCmd.ExecuteScalarAsync() ?? matchedCount + 1);
+
+            // E5-US1: re-evaluate priority now that duplicate count increased
+            var priorityResult = await _priorityService.UpdatePriorityAsync(new UpdatePriorityRequest
+            {
+                ComplaintId = matchedId,
+                DuplicateCount = newCount,
+                DaysOld = 0,
+                CurrentPriority = matchedPriority,
+            });
+
+            if (priorityResult.NewPriority != matchedPriority)
+            {
+                const string priorityUpdateSql = "UPDATE complaints SET priority = @priority WHERE id = @id::uuid";
+                await using var priorityCmd = new NpgsqlCommand(priorityUpdateSql, conn);
+                priorityCmd.Parameters.AddWithValue("priority", priorityResult.NewPriority);
+                priorityCmd.Parameters.AddWithValue("id", matchedId);
+                await priorityCmd.ExecuteNonQueryAsync();
+            }
 
             return new DuplicateCheckResult
             {
