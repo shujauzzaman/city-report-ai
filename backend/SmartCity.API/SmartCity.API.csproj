@@ -11,6 +11,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.1" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.30.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="4.1.2" />
+    <PackageReference Include="Npgsql" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rUSr24+vAhk=",
+  "dgSpecHash": "BaiHLy+SOws=",
   "success": true,
   "projectFilePath": "C:\\Users\\Shujah Uz Zaman\\Desktop\\Shuja\\fyp\\city-report-ai\\backend\\SmartCity.API\\SmartCity.API.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\microsoft.ml.onnxruntime\\1.30.0\\microsoft.ml.onnxruntime.1.30.0.nupkg.sha512",
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\microsoft.ml.onnxruntime.managed\\1.30.0\\microsoft.ml.onnxruntime.managed.1.30.0.nupkg.sha512",
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512",
+    "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\npgsql\\10.0.3\\npgsql.10.0.3.nupkg.sha512",
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\sixlabors.imagesharp\\4.1.2\\sixlabors.imagesharp.4.1.2.nupkg.sha512",
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\swashbuckle.aspnetcore\\10.2.1\\swashbuckle.aspnetcore.10.2.1.nupkg.sha512",
     "C:\\Users\\Shujah Uz Zaman\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.2.1\\swashbuckle.aspnetcore.swagger.10.2.1.nupkg.sha512",

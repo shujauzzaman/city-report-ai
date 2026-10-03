@@ -139,6 +139,19 @@
           }
         }
       },
+      "Npgsql/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Npgsql.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Npgsql.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "SixLabors.ImageSharp/4.1.2": {
         "type": "package",
         "dependencies": {
@@ -643,6 +656,25 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "Npgsql/10.0.3": {
+      "sha512": "7nb5YzXuvWWJxB0J8DiyL3we+X4FOctZrt0fIBnucOIaIevFEEwGQVZKtiu9olXdlNAK1eNgqSral6r/jlhI4w==",
+      "type": "package",
+      "path": "npgsql/10.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/Npgsql.dll",
+        "lib/net10.0/Npgsql.xml",
+        "lib/net8.0/Npgsql.dll",
+        "lib/net8.0/Npgsql.xml",
+        "lib/net9.0/Npgsql.dll",
+        "lib/net9.0/Npgsql.xml",
+        "npgsql.10.0.3.nupkg.sha512",
+        "npgsql.nuspec",
+        "postgresql.png"
+      ]
+    },
     "SixLabors.ImageSharp/4.1.2": {
       "sha512": "AQ0oouhH/6qmXJC70/k50iVt7SiZRjCgd4tXXiC5ZrB5CvyBwA81HTqb5twcXz8CvTAFxUNV0TAcL83OhyRA1g==",
       "type": "package",
@@ -802,6 +834,7 @@
     "net10.0": [
       "Microsoft.AspNetCore.OpenApi >= 10.0.9",
       "Microsoft.ML.OnnxRuntime >= 1.30.0",
+      "Npgsql >= 10.0.3",
       "SixLabors.ImageSharp >= 4.1.2",
       "Swashbuckle.AspNetCore >= 10.2.1"
     ]
@@ -858,6 +891,10 @@
           "Microsoft.ML.OnnxRuntime": {
             "target": "Package",
             "version": "[1.30.0, )"
+          },
+          "Npgsql": {
+            "target": "Package",
+            "version": "[10.0.3, )"
           },
           "SixLabors.ImageSharp": {
             "target": "Package",
