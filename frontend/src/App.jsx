@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Authentication from './pages/auth/Authentication'
 import OTPVerification from './pages/auth/OTPVerification'
+import SetPassword from './pages/auth/SetPassword'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 import ProfilePage from './pages/shared/ProfilePage'
 
@@ -32,6 +33,7 @@ function App () {
       <Route path='/' element={<Home />} />
       <Route path='/authenticate' element={<Authentication />} />
       <Route path="/verify-otp" element={<OTPVerification />} />
+      <Route path="/set-password" element={<SetPassword />} />
 
       {/* admin */}
       <Route path="/a" element={
@@ -83,4 +85,4 @@ function App () {
   )
 }
 
-export default App 
+export default App

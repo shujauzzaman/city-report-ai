@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import BackButton from '../../components/shared/BackButton'
-import { Building2, ArrowRight, Mail } from 'lucide-react'
+import { ArrowRight, Mail } from 'lucide-react'
+import { ensureProfile, getDestination } from '../../lib/authHelpers'
 
 export default function OTPVerification() {
   const location = useLocation()
@@ -70,43 +71,24 @@ export default function OTPVerification() {
 
     const user = data.user
 
-    const { data: existingProfile } = await supabase
-      .from('profiles')
-      .select('role, is_disabled')
-      .eq('id', user.id)
-      .single()
-
-    if (!existingProfile) {
-      const { error: insertError } = await supabase
-        .from('profiles')
-        .insert({ id: user.id, role: 'citizen', is_disabled: false })
-
-      if (insertError) {
-        setError(insertError.message)
-        setLoading(false)
-        return
-      }
+    // First-time users get a citizen profile
+    const { error: profileError } = await ensureProfile(user)
+    if (profileError) {
+      setError(profileError.message)
+      setLoading(false)
+      return
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role, is_disabled, profile_completion')
-      .eq('id', user.id)
-      .single()
-
-    if (profile?.is_disabled) {
-      await supabase.auth.signOut()
+    // Disabled accounts are signed out here and never reach the password step
+    const dest = await getDestination(user)
+    if (dest.disabled) {
       setError('Your account has been disabled. Please contact the administrator.')
       setLoading(false)
       return
     }
 
-    const role = profile?.role
-    const completion = profile?.profile_completion || 0
-    const basePath = role === 'admin' ? '/a' : role === 'officer' ? '/o' : role === 'worker' ? '/w' : '/c'
-
-    navigate(completion === 0 ? `${basePath}/profile` : `${basePath}/dashboard`)
     setLoading(false)
+    navigate('/set-password', { replace: true })
   }
 
   const handleResend = async () => {
