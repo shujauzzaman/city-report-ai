@@ -45,7 +45,7 @@ export default function Authentication() {
     setPassword('')
   }
 
-  const handleAuth = async (e) => {
+    const handleAuth = async (e) => {
     e.preventDefault()
     setError('')
     setLoading(true)
@@ -63,6 +63,27 @@ export default function Authentication() {
       setError(DISABLED_MESSAGE)
       setLoading(false)
       return
+    }
+
+    // Create account: refuse if this email already has an account
+    if (mode === 'register') {
+      const { data: exists, error: existsError } = await supabase.rpc('email_exists', {
+        check_email: cleanEmail,
+      })
+
+      if (existsError) {
+        setError('Could not check this email. Please try again.')
+        setLoading(false)
+        return
+      }
+
+      if (exists) {
+        setMode('login')
+        setPassword('')
+        setError('An account with this email already exists. Please sign in.')
+        setLoading(false)
+        return
+      }
     }
 
     // Normal sign-in: email + password
