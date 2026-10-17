@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddSingleton<IAnalysisService, AnalysisService>();
 builder.Services.AddScoped<IDuplicateService, DuplicateService>();
 builder.Services.AddScoped<IPriorityService, PriorityService>();
+builder.Services.AddHttpClient<IAdminService, AdminService>();
 
 var app = builder.Build();
 

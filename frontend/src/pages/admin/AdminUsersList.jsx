@@ -160,6 +160,16 @@ export default function AdminUsersList() {
                   </span>
                 </div>
 
+                {/* Make staff / change role */}
+                {user.email && (
+                  <button
+                    onClick={() => navigate('/a/users', { state: { email: user.email } })}
+                    className="text-xs font-medium px-3 py-1.5 rounded-md text-brand border border-brand-light hover:bg-brand-surface transition-colors"
+                  >
+                    {role === 'citizen' ? 'Make staff' : 'Change role'}
+                  </button>
+                )}
+
                 {/* Disable / Enable button */}
                 <button
                   onClick={(e) => handleToggle(e, user)}
