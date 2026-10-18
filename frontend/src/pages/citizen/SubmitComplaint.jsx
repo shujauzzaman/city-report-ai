@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import { ImagePlus, MapPin, FileText, X, Navigation, Send } from 'lucide-react'
+import { validateImageFile, MAX_IMAGE_MB } from '../../lib/imageValidation'
 
 export default function SubmitComplaint() {
   const navigate = useNavigate()
 
   const [image, setImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [imageError, setImageError] = useState('')
   const [description, setDescription] = useState('')
   const [address, setAddress] = useState('')
   const [latitude, setLatitude] = useState(null)
@@ -18,24 +20,35 @@ export default function SubmitComplaint() {
   const [analyzing, setAnalyzing] = useState(false)
   const [error, setError] = useState('')
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
+  // E8-US2: only accept a supported image type within the size limit
+  const acceptImage = (file) => {
     if (!file) return
+
+    const problem = validateImageFile(file)
+    if (problem) {
+      setImageError(problem)
+      return
+    }
+
+    setImageError('')
     setImage(file)
     setImagePreview(URL.createObjectURL(file))
   }
 
+  const handleImageChange = (e) => {
+    acceptImage(e.target.files[0])
+    e.target.value = '' // lets the same file be chosen again after an error
+  }
+
   const handleImageDrop = (e) => {
     e.preventDefault()
-    const file = e.dataTransfer.files[0]
-    if (!file) return
-    setImage(file)
-    setImagePreview(URL.createObjectURL(file))
+    acceptImage(e.dataTransfer.files[0])
   }
 
   const removeImage = () => {
     setImage(null)
     setImagePreview(null)
+    setImageError('')
   }
 
   const handleGetLocation = () => {
@@ -246,11 +259,13 @@ export default function SubmitComplaint() {
                 Drag & drop an image here, or{' '}
                 <span className="text-brand font-medium">browse</span>
               </p>
-              <p className="text-xs text-gray-300 mt-1">Max size 20MB</p>
+              <p className="text-xs text-gray-300 mt-1">
+                JPG, PNG or WebP · Max size {MAX_IMAGE_MB}MB
+              </p>
               <input
                 id="image-input"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
                 onChange={handleImageChange}
                 className="hidden"
               />
@@ -271,6 +286,12 @@ export default function SubmitComplaint() {
                 Remove
               </button>
             </div>
+          )}
+
+          {imageError && (
+            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-md px-3 py-2 mt-3">
+              {imageError}
+            </p>
           )}
         </div>
 

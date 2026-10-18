@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { MapPin, Calendar, AlertTriangle, Activity, CheckCircle, ImagePlus, X, FileText } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
+import { validateImageFile } from '../../lib/imageValidation'
 
 const priorityStyles = {
   critical: 'bg-red-100 text-red-700',
@@ -34,12 +35,21 @@ function ResolveModal({ task, onClose, onResolved }) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    setImage(file)
-    setImagePreview(URL.createObjectURL(file))
-  }
+    const handleImageChange = (e) => {
+      const file = e.target.files[0]
+      if (!file) return
+
+      const problem = validateImageFile(file)
+      if (problem) {
+        setError(problem)
+        e.target.value = ''
+        return
+      }
+
+      setError('')
+      setImage(file)
+      setImagePreview(URL.createObjectURL(file))
+    }
 
   const handleSubmit = async () => {
     if (!image) {
@@ -126,7 +136,7 @@ function ResolveModal({ task, onClose, onResolved }) {
                 <input
                   id="proof-input"
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp"
                   onChange={handleImageChange}
                   className="hidden"
                 />
