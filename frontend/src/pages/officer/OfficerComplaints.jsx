@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient'
 import { MapPin, Calendar, AlertTriangle, Activity, Search, X } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
 import AssignWorker from '../../components/officer/AssignWorker'
+import MoveDepartment from '../../components/officer/MoveDepartment'
 
 const priorityStyles = {
   critical: 'bg-red-100 text-red-700',
@@ -156,7 +157,7 @@ export default function OfficerComplaints() {
           </button>
         )}
       </div>
-    
+
       {/* Filter tabs */}
       <div className="flex gap-2 mb-6">
         {['all', 'pending', 'in_progress', 'resolved'].map(tab => (
@@ -215,7 +216,7 @@ export default function OfficerComplaints() {
                   })}
                 </div>
 
-                <div className="flex gap-2 mt-2">
+                <div className="flex flex-wrap gap-2 mt-2">
                   <div className="flex items-center gap-1">
                     <AlertTriangle size={10} className="text-gray-400" />
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
@@ -228,6 +229,11 @@ export default function OfficerComplaints() {
                       {complaint.status === 'in_progress' ? 'In Progress' : complaint.status?.charAt(0).toUpperCase() + complaint.status?.slice(1)}
                     </span>
                   </div>
+                  {complaint.issue_type === 'unknown' && (
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
+                      Needs review
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -240,19 +246,29 @@ export default function OfficerComplaints() {
           complaint={selectedComplaint}
           onClose={() => setSelectedComplaint(null)}
           actions={
-            <AssignWorker
-              complaint={selectedComplaint}
-              onAssigned={() => {
-                setComplaints(prev =>
-                  prev.map(c =>
-                    c.id === selectedComplaint.id
-                      ? { ...c, status: 'in_progress', assigned_worker_id: true }
-                      : c
+            <>
+              <AssignWorker
+                complaint={selectedComplaint}
+                onAssigned={() => {
+                  setComplaints(prev =>
+                    prev.map(c =>
+                      c.id === selectedComplaint.id
+                        ? { ...c, status: 'in_progress', assigned_worker_id: true }
+                        : c
+                    )
                   )
-                )
-                setSelectedComplaint(null)
-              }}
-            />
+                  setSelectedComplaint(null)
+                }}
+              />
+              <MoveDepartment
+                complaint={selectedComplaint}
+                onMoved={() => {
+                  // It now belongs to another department, so it leaves this officer's list
+                  setComplaints(prev => prev.filter(c => c.id !== selectedComplaint.id))
+                  setSelectedComplaint(null)
+                }}
+              />
+            </>
           }
         />
       )}

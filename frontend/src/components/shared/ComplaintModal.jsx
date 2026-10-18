@@ -159,6 +159,16 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             </div>
           )}
 
+                    {/* AI could not identify the issue */}
+          {complaint.issue_type === 'unknown' && (
+            <div className="bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5">
+              <p className="text-xs text-amber-700 font-medium uppercase tracking-wide mb-0.5">AI Detection</p>
+              <p className="text-sm text-amber-800">
+                The AI could not identify this issue. An officer will review it.
+              </p>
+            </div>
+          )}
+
           {/* Description */}
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Description</p>
