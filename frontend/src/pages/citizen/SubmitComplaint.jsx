@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
-import { ImagePlus, MapPin, FileText, X, Navigation, Send } from 'lucide-react'
+import { ImagePlus, MapPin, FileText, X, Navigation, Send, Mic } from 'lucide-react'
 import { validateImageFile, MAX_IMAGE_MB } from '../../lib/imageValidation'
+import VoiceRecorder from '../../components/shared/VoiceRecorder'
 
 export default function SubmitComplaint() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ export default function SubmitComplaint() {
   const [image, setImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
   const [imageError, setImageError] = useState('')
+  const [voice, setVoice] = useState(null)
   const [description, setDescription] = useState('')
   const [address, setAddress] = useState('')
   const [latitude, setLatitude] = useState(null)
@@ -20,7 +22,7 @@ export default function SubmitComplaint() {
   const [analyzing, setAnalyzing] = useState(false)
   const [error, setError] = useState('')
 
-  // E8-US2: only accept a supported image type within the size limit
+  // Only accept a supported image type within the size limit
   const acceptImage = (file) => {
     if (!file) return
 
@@ -158,7 +160,10 @@ export default function SubmitComplaint() {
 
     if (!image) { setError('Please upload an image of the issue.'); return }
     if (!address) { setError('Please provide a location.'); return }
-    if (!description.trim()) { setError('Please add a description.'); return }
+    if (!description.trim() && !voice) {
+      setError('Please type a description or record a voice message.')
+      return
+    }
 
     setLoading(true)
 
@@ -180,6 +185,26 @@ export default function SubmitComplaint() {
     const { data: { publicUrl } } = supabase.storage
       .from('complaint-images')
       .getPublicUrl(fileName)
+
+    // Voice description: upload the recording if the citizen made one
+    let voiceUrl = null
+    if (voice) {
+      const baseType = voice.mimeType.split(';')[0]
+      const voiceExt = baseType === 'audio/mp4' ? 'm4a' : baseType === 'audio/ogg' ? 'ogg' : 'webm'
+      const voicePath = `${user.id}/${Date.now()}.${voiceExt}`
+
+      const { error: voiceUploadError } = await supabase.storage
+        .from('complaint-audio')
+        .upload(voicePath, voice.blob, { contentType: baseType })
+
+      if (voiceUploadError) {
+        setError('The voice message could not be uploaded: ' + voiceUploadError.message)
+        setLoading(false)
+        return
+      }
+
+      voiceUrl = supabase.storage.from('complaint-audio').getPublicUrl(voicePath).data.publicUrl
+    }
 
     // E2-US5 / E2-US6: send image to AI, receive detection result
     const analysis = await analyzeImage(publicUrl)
@@ -207,6 +232,8 @@ export default function SubmitComplaint() {
         box_x2: analysis.boxX2,
         box_y2: analysis.boxY2,
         parent_complaint_id: dupCheck.isDuplicate ? dupCheck.originalComplaintId : null,
+        voice_url: voiceUrl,
+        voice_duration: voice ? voice.duration : null,
       })
 
     setLoading(false)
@@ -335,7 +362,10 @@ export default function SubmitComplaint() {
         <div className="bg-white border border-gray-200 rounded-md p-5">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
             <FileText size={15} className="text-brand" />
-            Description <span className="text-danger">*</span>
+            Description{' '}
+            <span className="text-xs font-normal text-gray-400">
+              (type it, or record a voice message below)
+            </span>
           </label>
           <textarea
             rows={4}
@@ -348,6 +378,18 @@ export default function SubmitComplaint() {
           <p className={`text-xs mt-1 text-right ${description.length >= 255 ? 'text-danger' : 'text-gray-400'}`}>
             {description.length}/255
           </p>
+        </div>
+
+        {/* Voice description (optional) */}
+        <div className="bg-white border border-gray-200 rounded-md p-5">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
+            <Mic size={15} className="text-brand" />
+            Voice description
+          </label>
+          <p className="text-xs text-gray-400 mb-3">
+            Can't type? Record up to 2 minutes instead.
+          </p>
+          <VoiceRecorder onChange={setVoice} />
         </div>
 
         {/* Error */}

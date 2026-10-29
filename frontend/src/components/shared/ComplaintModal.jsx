@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { MapPin, Calendar, Clock, Building2, AlertTriangle, Activity, Cpu } from 'lucide-react'
+import { MapPin, Calendar, Clock, Building2, AlertTriangle, Activity, Cpu, Mic } from 'lucide-react'
+import { supabase } from '../../lib/supabaseClient'
 
 const priorityStyles = {
   critical: 'bg-red-100 text-red-700',
@@ -31,6 +32,10 @@ const issueTypeLabels = {
 }
 
 export default function ComplaintModal({ complaint, onClose, actions }) {
+  const [imgSize, setImgSize] = useState(null)
+  const [voice, setVoice] = useState(null)
+  const imgRef = useRef(null)
+
   const handleBackdrop = (e) => {
     if (e.target === e.currentTarget) onClose()
   }
@@ -41,10 +46,22 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  const hasDetection = complaint.issue_type && complaint.issue_type !== 'unknown'
+  // Voice description: loaded here so every role that opens a complaint gets it
+  useEffect(() => {
+    let cancelled = false
+    setVoice(null)
 
-  const [imgSize, setImgSize] = useState(null)
-  const imgRef = useRef(null)
+    supabase
+      .from('complaints')
+      .select('voice_url, voice_duration')
+      .eq('id', complaint.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!cancelled && data?.voice_url) setVoice(data)
+      })
+
+    return () => { cancelled = true }
+  }, [complaint.id])
 
   const handleImageLoad = () => {
     if (imgRef.current) {
@@ -57,7 +74,11 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
     }
   }
 
-  const hasBox = complaint.box_x1 != null && complaint.box_y1 != null && complaint.box_x2 != null && complaint.box_y2 != null
+  const hasBox =
+    complaint.box_x1 != null && complaint.box_y1 != null &&
+    complaint.box_x2 != null && complaint.box_y2 != null
+
+  const hasDetection = complaint.issue_type && complaint.issue_type !== 'unknown'
 
   return (
     <div
@@ -66,7 +87,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
     >
       <div className="bg-white rounded-md w-full max-w-lg max-h-[90vh] overflow-y-auto scrollbar-hide">
 
-        {/* Image */}
+        {/* Image with the detected issue outlined */}
         {complaint.image_url && (
           <div className="relative w-full h-56 rounded-t-md overflow-hidden">
             <img
@@ -77,8 +98,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
               className="w-full h-56 object-cover"
             />
             {hasBox && imgSize && (() => {
-              // object-cover crops the image to fill the box, so we scale using the
-              // larger of the two ratios (matching object-cover's crop behavior)
+              // object-cover crops the image to fill the box, so scale like it does
               const scale = Math.max(
                 imgSize.displayedWidth / imgSize.naturalWidth,
                 imgSize.displayedHeight / imgSize.naturalHeight
@@ -132,7 +152,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             </div>
           </div>
 
-          {/* AI Detection — E3-US5 */}
+          {/* AI Detection */}
           {hasDetection && (
             <div className="bg-brand-surface border border-brand-light rounded-md px-3 py-2.5">
               <div className="flex items-center gap-1.5 mb-1.5">
@@ -159,7 +179,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             </div>
           )}
 
-                    {/* AI could not identify the issue */}
+          {/* AI could not identify the issue */}
           {complaint.issue_type === 'unknown' && (
             <div className="bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5">
               <p className="text-xs text-amber-700 font-medium uppercase tracking-wide mb-0.5">AI Detection</p>
@@ -173,9 +193,21 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Description</p>
             <p className="text-sm text-gray-700 leading-relaxed">
-              {complaint.description || 'No description provided.'}
+              {complaint.description ||
+                (voice?.voice_url ? 'No written description. Please listen to the voice message below.' : 'No description provided.')}
             </p>
           </div>
+
+          {/* Voice description */}
+          {voice?.voice_url && (
+            <div>
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Voice description</p>
+              <div className="flex items-center gap-2">
+                <Mic size={13} className="text-brand flex-shrink-0" />
+                <audio controls preload="metadata" src={voice.voice_url} className="w-full h-9" />
+              </div>
+            </div>
+          )}
 
           {/* Location */}
           <div>
@@ -251,14 +283,14 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
                   className="w-full h-32 object-cover rounded-md"
                 />
               </div>
-    </div>
-    {complaint.resolution_notes && (
-      <p className="text-xs text-gray-500 mt-2 bg-gray-50 rounded-md px-3 py-2">
-        {complaint.resolution_notes}
-      </p>
-    )}
-  </div>
-)}
+            </div>
+            {complaint.resolution_notes && (
+              <p className="text-xs text-gray-500 mt-2 bg-gray-50 rounded-md px-3 py-2">
+                {complaint.resolution_notes}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-2">
