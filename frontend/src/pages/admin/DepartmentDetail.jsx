@@ -258,8 +258,8 @@ export default function DepartmentDetail() {
                       <div className="flex gap-2">
                         <div className="flex items-center gap-1">
                           <AlertTriangle size={10} className="text-gray-400" />
-                          <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
-                            {complaint.priority?.charAt(0).toUpperCase() + complaint.priority?.slice(1)}
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || 'bg-gray-100 text-gray-500'}`}>
+                            {complaint.priority ? complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1) : 'Under review'}
                           </span>
                         </div>
                         <div className="flex items-center gap-1">

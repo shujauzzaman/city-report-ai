@@ -222,7 +222,7 @@ export default function SubmitComplaint() {
         longitude,
         address,
         status: 'pending',
-        priority: analysis.priority,
+        priority: null,
         department: analysis.department,
         issue_type: analysis.issueType,
         hazard_level: analysis.hazardLevel,

@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
-import { MapPin, Calendar, AlertTriangle, Activity, Search, X } from 'lucide-react'
+import { MapPin, Calendar, AlertTriangle, Activity, Search, X, Clock } from 'lucide-react'
 import ComplaintModal from '../../components/shared/ComplaintModal'
 import AssignWorker from '../../components/officer/AssignWorker'
 import MoveDepartment from '../../components/officer/MoveDepartment'
+import SetPriority from '../../components/officer/SetPriority'
+
+// An unreviewed complaint gets a "Waiting" flag after this many days (changes nothing by itself)
+const REVIEW_ALERT_DAYS = 2
 
 const priorityStyles = {
   critical: 'bg-red-100 text-red-700',
@@ -18,6 +22,21 @@ const statusStyles = {
   resolved: 'bg-emerald-100 text-emerald-700',
 }
 
+const priorityRank = { critical: 0, high: 1, medium: 2, low: 3 }
+
+// Complaints still waiting for a priority first, then Critical down to Low.
+// Within the same level, the oldest complaint comes first.
+const sortComplaints = (list) =>
+  [...list].sort((a, b) => {
+    const rankA = a.priority ? (priorityRank[a.priority] ?? 2) : -1
+    const rankB = b.priority ? (priorityRank[b.priority] ?? 2) : -1
+    if (rankA !== rankB) return rankA - rankB
+    return String(a.created_at).localeCompare(String(b.created_at))
+  })
+
+const waitingDays = (c) =>
+  Math.floor((Date.now() - new Date(c.created_at + 'Z').getTime()) / (1000 * 60 * 60 * 24))
+
 export default function OfficerComplaints() {
   const [complaints, setComplaints] = useState([])
   const [loading, setLoading] = useState(true)
@@ -25,51 +44,6 @@ export default function OfficerComplaints() {
   const [selectedComplaint, setSelectedComplaint] = useState(null)
   const [department, setDepartment] = useState('')
   const [search, setSearch] = useState('')
-
-  // E5-US2: check each active complaint's age and escalate priority if it's been pending too long
-  const checkTimeBasedEscalation = async (complaintsList) => {
-    const updated = [...complaintsList]
-    let anyChanged = false
-
-    for (let i = 0; i < updated.length; i++) {
-      const c = updated[i]
-      if (c.status === 'resolved') continue
-
-      const createdDate = new Date(c.created_at + 'Z')
-      const daysOld = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24))
-
-      if (daysOld < 7) continue // below the escalation threshold, skip the call entirely
-
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints/${c.id}/priority`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            duplicateCount: c.duplicate_count || 0,
-            daysOld,
-            currentPriority: c.priority,
-          }),
-        })
-        if (!res.ok) continue
-
-        const result = await res.json()
-
-        if (result.newPriority && result.newPriority !== c.priority) {
-          await supabase
-            .from('complaints')
-            .update({ priority: result.newPriority })
-            .eq('id', c.id)
-
-          updated[i] = { ...c, priority: result.newPriority }
-          anyChanged = true
-        }
-      } catch (err) {
-        console.error('Priority escalation check failed for complaint', c.id, err)
-      }
-    }
-
-    return anyChanged ? updated : complaintsList
-  }
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -94,33 +68,25 @@ export default function OfficerComplaints() {
         .eq('department', profile.department)
         .order('created_at', { ascending: false })
 
-      if (data) {
-        const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
-
-        // E5-US2: run time-based escalation check before displaying
-        const checked = await checkTimeBasedEscalation(data)
-
-        const sorted = [...checked].sort((a, b) =>
-          (priorityOrder[a.priority] ?? 2) - (priorityOrder[b.priority] ?? 2)
-        )
-        setComplaints(sorted)
-      }
+      if (data) setComplaints(data)
       setLoading(false)
     }
 
     fetchComplaints()
   }, [])
 
-  const filtered = complaints
-  .filter(c => filter === 'all' ? true : c.status === filter)
-  .filter(c => {
-    if (!search.trim()) return true
-    const q = search.toLowerCase()
-    return (
-      c.description?.toLowerCase().includes(q) ||
-      c.address?.toLowerCase().includes(q)
-    )
-  })
+  const filtered = useMemo(() => {
+    return sortComplaints(complaints)
+      .filter(c => filter === 'all' ? true : c.status === filter)
+      .filter(c => {
+        if (!search.trim()) return true
+        const q = search.toLowerCase()
+        return (
+          c.description?.toLowerCase().includes(q) ||
+          c.address?.toLowerCase().includes(q)
+        )
+      })
+  }, [complaints, filter, search])
 
   return (
     <div>
@@ -219,8 +185,10 @@ export default function OfficerComplaints() {
                 <div className="flex flex-wrap gap-2 mt-2">
                   <div className="flex items-center gap-1">
                     <AlertTriangle size={10} className="text-gray-400" />
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
-                      {complaint.priority?.charAt(0).toUpperCase() + complaint.priority?.slice(1)}
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || 'bg-gray-100 text-gray-500'}`}>
+                      {complaint.priority
+                        ? complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1)
+                        : 'Under review'}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -229,6 +197,12 @@ export default function OfficerComplaints() {
                       {complaint.status === 'in_progress' ? 'In Progress' : complaint.status?.charAt(0).toUpperCase() + complaint.status?.slice(1)}
                     </span>
                   </div>
+                  {!complaint.priority && complaint.status !== 'resolved' && waitingDays(complaint) >= REVIEW_ALERT_DAYS && (
+                    <span className="flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
+                      <Clock size={10} />
+                      Waiting {waitingDays(complaint)} days
+                    </span>
+                  )}
                   {complaint.issue_type === 'unknown' && (
                     <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
                       Needs review
@@ -247,6 +221,15 @@ export default function OfficerComplaints() {
           onClose={() => setSelectedComplaint(null)}
           actions={
             <>
+              <SetPriority
+                complaint={selectedComplaint}
+                onSaved={(priority) => {
+                  setComplaints(prev =>
+                    prev.map(c => c.id === selectedComplaint.id ? { ...c, priority } : c)
+                  )
+                  setSelectedComplaint(prev => ({ ...prev, priority }))
+                }}
+              />
               <AssignWorker
                 complaint={selectedComplaint}
                 onAssigned={() => {

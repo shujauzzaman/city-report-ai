@@ -142,8 +142,8 @@ export default function MyComplaints() {
 
                 {/* Badges */}
                 <div className="flex gap-2 mt-2">
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
-                    {complaint.priority}
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || 'bg-gray-100 text-gray-500'}`}>
+                    {complaint.priority ? complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1) : 'Under review'}
                   </span>
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${statusStyles[complaint.status] || statusStyles.pending}`}>
                     {complaint.status === 'in_progress' ? 'In Progress' : complaint.status}

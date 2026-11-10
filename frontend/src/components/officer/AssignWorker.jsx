@@ -7,43 +7,30 @@ export default function AssignWorker({ complaint, onAssigned }) {
   const [selectedWorker, setSelectedWorker] = useState('')
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchWorkers = async () => {
-      // Get officer's department first
-      const { data: { user } } = await supabase.auth.getUser()
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('department')
-        .eq('id', user.id)
-        .single()
-
-      if (!profile?.department) {
-        setFetching(false)
-        return
-      }
-
-      // Fetch workers in same department
       const { data } = await supabase
         .from('profiles')
-        .select('id, full_name, department')
+        .select('id, full_name, email')
         .eq('role', 'worker')
-        .eq('department', profile.department)
+        .eq('department', complaint.department)
 
       if (data) setWorkers(data)
       setFetching(false)
     }
 
     fetchWorkers()
-  }, [])
+  }, [complaint.department])
 
   const handleAssign = async () => {
     if (!selectedWorker) return
 
     setLoading(true)
+    setError('')
 
-    const { error } = await supabase
+    const { error: assignError } = await supabase
       .from('complaints')
       .update({
         assigned_worker_id: selectedWorker,
@@ -53,47 +40,70 @@ export default function AssignWorker({ complaint, onAssigned }) {
 
     setLoading(false)
 
-    if (!error) onAssigned()
+    if (assignError) {
+      setError(assignError.message)
+      return
+    }
+
+    onAssigned()
   }
 
-  if (fetching) return (
-    <p className="text-xs text-gray-400 text-center py-2">Loading workers...</p>
-  )
+  // The priority has to be set before a complaint can be assigned
+  if (!complaint.priority) {
+    return (
+      <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+        Set the priority above first, then you can assign this complaint to a worker.
+      </p>
+    )
+  }
 
-  if (workers.length === 0) return (
-    <p className="text-xs text-danger text-center py-2">No workers available in this department.</p>
-  )
+  if (fetching) {
+    return <p className="text-xs text-gray-400">Loading workers...</p>
+  }
 
-  // Already assigned
-  if (complaint.assigned_worker_id) return (
-    <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-md px-3 py-2">
-      <UserCheck size={14} className="text-success" />
-      <p className="text-xs text-success font-medium">Worker already assigned</p>
-    </div>
-  )
+  if (workers.length === 0) {
+    return (
+      <p className="text-xs text-gray-400 bg-gray-50 rounded-md px-3 py-2">
+        No workers available in this department.
+      </p>
+    )
+  }
+
+  if (complaint.assigned_worker_id) {
+    return (
+      <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-md px-3 py-2">
+        <UserCheck size={14} className="text-emerald-600" />
+        <p className="text-xs text-emerald-700 font-medium">Worker already assigned</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="flex gap-2">
-      <select
-        value={selectedWorker}
-        onChange={(e) => setSelectedWorker(e.target.value)}
-        className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand"
-      >
-        <option value="">Select a worker...</option>
-        {workers.map(worker => (
-        <option key={worker.id} value={worker.id}>
-            {worker.full_name || 'Unnamed Worker'}
-        </option>
-        ))}
-      </select>
-      <button
-        onClick={handleAssign}
-        disabled={loading || !selectedWorker}
-        className="flex items-center gap-2 bg-brand hover:bg-brand-accent text-white text-sm font-medium px-4 py-2 rounded-md transition-colors disabled:opacity-60 whitespace-nowrap"
-      >
-        <UserCheck size={14} />
-        {loading ? 'Assigning...' : 'Assign'}
-      </button>
+    <div>
+      <div className="flex gap-2">
+        <select
+          value={selectedWorker}
+          onChange={(e) => setSelectedWorker(e.target.value)}
+          className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand bg-white"
+        >
+          <option value="">Select worker...</option>
+          {workers.map(w => (
+            <option key={w.id} value={w.id}>
+              {w.full_name || w.email}
+            </option>
+          ))}
+        </select>
+
+        <button
+          onClick={handleAssign}
+          disabled={!selectedWorker || loading}
+          className="bg-brand hover:bg-brand-accent text-white text-sm font-medium px-4 py-2 rounded-md transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Assigning...' : 'Assign'}
+        </button>
+      </div>
+
+      {error && <p className="text-xs text-danger mt-1.5">{error}</p>}
     </div>
   )
 }

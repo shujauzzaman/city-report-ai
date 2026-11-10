@@ -13,6 +13,17 @@ export default function MoveDepartment({ complaint, onMoved }) {
   // A resolved complaint is finished, so there is nothing to move
   if (complaint.status === 'resolved') return null
 
+  // The priority has to be set before a complaint can be moved
+  if (!complaint.priority) {
+    return (
+      <div className="border-t border-gray-100 pt-3">
+        <p className="text-xs text-gray-400">
+          Set the priority before moving this complaint to another department.
+        </p>
+      </div>
+    )
+  }
+
   const options = DEPARTMENTS.filter(d => d !== complaint.department)
 
   const handleMove = async () => {

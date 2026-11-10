@@ -141,8 +141,8 @@ export default function OfficerDashboard() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-1 items-end">
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
-                    {complaint.priority?.charAt(0).toUpperCase() + complaint.priority?.slice(1)}
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || 'bg-gray-100 text-gray-500'}`}>
+                    {complaint.priority ? complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1) : 'Under review'}
                   </span>
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${statusStyles[complaint.status] || statusStyles.pending}`}>
                     {complaint.status === 'in_progress' ? 'In Progress' : complaint.status?.charAt(0).toUpperCase() + complaint.status?.slice(1)}

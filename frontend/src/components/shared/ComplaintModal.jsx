@@ -33,7 +33,7 @@ const issueTypeLabels = {
 
 export default function ComplaintModal({ complaint, onClose, actions }) {
   const [imgSize, setImgSize] = useState(null)
-  const [voice, setVoice] = useState(null)
+  const [extra, setExtra] = useState(null)
   const imgRef = useRef(null)
 
   const handleBackdrop = (e) => {
@@ -46,22 +46,25 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  // Voice description: loaded here so every role that opens a complaint gets it
+  // Voice message and duplicate count: loaded here so every role that opens a complaint gets them
   useEffect(() => {
     let cancelled = false
-    setVoice(null)
+    setExtra(null)
 
     supabase
       .from('complaints')
-      .select('voice_url, voice_duration')
+      .select('voice_url, voice_duration, duplicate_count')
       .eq('id', complaint.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (!cancelled && data?.voice_url) setVoice(data)
+        if (!cancelled && data) setExtra(data)
       })
 
     return () => { cancelled = true }
   }, [complaint.id])
+
+  const voiceUrl = extra?.voice_url
+  const duplicateCount = extra?.duplicate_count || 0
 
   const handleImageLoad = () => {
     if (imgRef.current) {
@@ -139,8 +142,10 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             <div className="flex items-center gap-1.5">
               <AlertTriangle size={13} className="text-gray-400" />
               <span className="text-xs text-gray-400">Priority</span>
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || priorityStyles.medium}`}>
-                {complaint.priority?.charAt(0).toUpperCase() + complaint.priority?.slice(1)}
+              <span className={`text-xs font-medium px-2 py-0.5 rounded-md ${priorityStyles[complaint.priority] || 'bg-gray-100 text-gray-500'}`}>
+                {complaint.priority
+                  ? complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1)
+                  : 'Under review'}
               </span>
             </div>
             <div className="flex items-center gap-1.5 ml-2">
@@ -176,6 +181,9 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
                   )}
                 </div>
               </div>
+              <p className="text-[11px] text-gray-400 mt-1.5">
+                The hazard level is only a suggestion. The officer sets the priority.
+              </p>
             </div>
           )}
 
@@ -189,22 +197,31 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             </div>
           )}
 
+          {/* Other citizens who reported the same issue */}
+          {duplicateCount > 0 && (
+            <div className="bg-brand-surface border border-brand-light rounded-md px-3 py-2">
+              <p className="text-sm text-gray-700">
+                Also reported by {duplicateCount} other {duplicateCount === 1 ? 'citizen' : 'citizens'}.
+              </p>
+            </div>
+          )}
+
           {/* Description */}
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Description</p>
             <p className="text-sm text-gray-700 leading-relaxed">
               {complaint.description ||
-                (voice?.voice_url ? 'No written description. Please listen to the voice message below.' : 'No description provided.')}
+                (voiceUrl ? 'No written description. Please listen to the voice message below.' : 'No description provided.')}
             </p>
           </div>
 
           {/* Voice description */}
-          {voice?.voice_url && (
+          {voiceUrl && (
             <div>
               <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Voice description</p>
               <div className="flex items-center gap-2">
                 <Mic size={13} className="text-brand flex-shrink-0" />
-                <audio controls preload="metadata" src={voice.voice_url} className="w-full h-9" />
+                <audio controls preload="metadata" src={voiceUrl} className="w-full h-9" />
               </div>
             </div>
           )}
@@ -293,7 +310,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
         )}
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-2">
+        <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-3">
           {actions && actions}
           <button
             onClick={onClose}
