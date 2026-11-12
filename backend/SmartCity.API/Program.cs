@@ -30,7 +30,6 @@ builder.Services.AddCors(options =>
 
 // Register services
 builder.Services.AddSingleton<IAnalysisService, AnalysisService>();
-builder.Services.AddScoped<IDuplicateService, DuplicateService>();
 builder.Services.AddScoped<IPriorityService, PriorityService>();
 builder.Services.AddHttpClient<IAdminService, AdminService>();
 

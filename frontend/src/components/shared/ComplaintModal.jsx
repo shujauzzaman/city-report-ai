@@ -53,7 +53,7 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
 
     supabase
       .from('complaints')
-      .select('voice_url, voice_duration, duplicate_count')
+      .select('voice_url, voice_duration')
       .eq('id', complaint.id)
       .maybeSingle()
       .then(({ data }) => {
@@ -64,7 +64,6 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
   }, [complaint.id])
 
   const voiceUrl = extra?.voice_url
-  const duplicateCount = extra?.duplicate_count || 0
 
   const handleImageLoad = () => {
     if (imgRef.current) {
@@ -197,14 +196,6 @@ export default function ComplaintModal({ complaint, onClose, actions }) {
             </div>
           )}
 
-          {/* Other citizens who reported the same issue */}
-          {duplicateCount > 0 && (
-            <div className="bg-brand-surface border border-brand-light rounded-md px-3 py-2">
-              <p className="text-sm text-gray-700">
-                Also reported by {duplicateCount} other {duplicateCount === 1 ? 'citizen' : 'citizens'}.
-              </p>
-            </div>
-          )}
 
           {/* Description */}
           <div>
