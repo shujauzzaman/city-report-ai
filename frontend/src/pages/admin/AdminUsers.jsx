@@ -167,7 +167,7 @@ export default function AdminUsers() {
         <p className="text-sm text-gray-500 mt-1">View and manage registered users</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {CATEGORIES.map(({ role: cat, label, icon: Icon, color }) => (
           <button
             key={cat}

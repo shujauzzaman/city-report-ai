@@ -129,7 +129,7 @@ export default function OTPVerification() {
       />
 
       {/* Card */}
-      <div className="bg-white border border-gray-200 rounded-md p-8 w-full max-w-md shadow-lg relative z-10">
+      <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-8 w-full max-w-md shadow-lg relative z-10">
 
         {/* Branding */}
         <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
@@ -167,7 +167,7 @@ export default function OTPVerification() {
               value={digit}
               onChange={e => handleChange(index, e.target.value)}
               onKeyDown={e => handleKeyDown(index, e)}
-              className={`w-12 h-14 text-center text-xl font-semibold border-2 rounded-md focus:outline-none transition-all duration-150 ${
+              className={`min-w-0 flex-1 sm:flex-none h-12 sm:h-14 sm:w-12 text-center text-xl font-semibold border-2 rounded-md focus:outline-none transition-all duration-150 ${
                 digit
                   ? 'border-brand bg-brand-surface text-brand'
                   : 'border-gray-200 text-brand-dark focus:border-brand focus:bg-brand-surface'

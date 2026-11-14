@@ -69,7 +69,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* System stats */}
-      <div className="grid grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         <div className="bg-white border border-gray-200 rounded-md p-5">
           <div className="flex items-center gap-2 mb-2">
             <BarChart2 size={14} className="text-gray-400" />
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
         <h2 className="text-sm font-medium text-brand-dark">Departments</h2>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {DEPARTMENTS.map(dept => (
           <div
             key={dept}

@@ -73,7 +73,7 @@ export default function MyComplaints() {
       </div>
 
       {/* Filter tabs */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {['all', 'pending', 'in_progress', 'resolved'].map(tab => (
           <button
             key={tab}

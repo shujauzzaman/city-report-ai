@@ -161,7 +161,7 @@ export default function Home() {
     <div className="min-h-screen bg-brand-surface text-brand-dark">
 
       {/* Top bar */}
-      <div className="bg-brand-dark py-2 px-8 hidden md:block">
+      <div className="bg-brand-dark py-2 px-4 sm:px-8 hidden md:block">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <span className="text-xs text-brand-light flex items-center gap-1.5">
             <Phone size={11} />

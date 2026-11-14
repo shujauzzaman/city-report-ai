@@ -11,7 +11,7 @@ const navItems = [
 export default function CitizenSidebar() {
 
   return (
-    <aside className="w-56 bg-brand-dark flex flex-col fixed h-full">
+    <aside className="w-56 bg-brand-dark flex flex-col h-full">
 
       {/* Logo */}
       <div className="px-5 py-5 border-b border-[#1A6B33]">
