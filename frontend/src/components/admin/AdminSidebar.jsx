@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users } from 'lucide-react'
+import { LayoutDashboard, Users, FileText } from 'lucide-react'
 import SidebarUserMenu from '../shared/SidebarUserMenu'
 
 const navItems = [
   { label: 'Dashboard', path: '/a/dashboard', icon: LayoutDashboard },
-  { label: 'User Management', path: '/a/users', icon: Users },
+    { label: 'User Management', path: '/a/users', icon: Users },
+  { label: 'Reports', path: '/a/reports', icon: FileText },
 ]
 
 export default function AdminSidebar() {
