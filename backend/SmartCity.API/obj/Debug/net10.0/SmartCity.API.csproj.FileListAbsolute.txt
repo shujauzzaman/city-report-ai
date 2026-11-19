@@ -55,3 +55,4 @@ C:\Users\Shujah Uz Zaman\Desktop\Shuja\fyp\city-report-ai\backend\SmartCity.API\
 C:\Users\Shujah Uz Zaman\Desktop\Shuja\fyp\city-report-ai\backend\SmartCity.API\bin\Debug\net10.0\runtimes\win-x64\native\onnxruntime_providers_shared.dll
 C:\Users\Shujah Uz Zaman\Desktop\Shuja\fyp\city-report-ai\backend\SmartCity.API\bin\Debug\net10.0\runtimes\win-x64\native\onnxruntime_providers_shared.lib
 C:\Users\Shujah Uz Zaman\Desktop\Shuja\fyp\city-report-ai\backend\SmartCity.API\obj\Debug\net10.0\SmartCity.API.sourcelink.json
+C:\Users\Shujah Uz Zaman\Desktop\Shuja\fyp\city-report-ai\backend\SmartCity.API\bin\Debug\net10.0\Npgsql.dll
